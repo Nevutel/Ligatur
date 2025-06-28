@@ -1,0 +1,91 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  name          String
+  avatar        String?
+  verified      Boolean   @default(false)
+  walletAddress String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  properties       Property[]
+  messagesSent     Message[] @relation("MessageFrom")
+  messagesReceived Message[] @relation("MessageTo")
+  
+  @@map("users")
+}
+
+model Property {
+  id                 String           @id @default(cuid())
+  title              String
+  description        String
+  priceUsd           Int
+  cryptoAmount       Float?
+  cryptoCurrency     String?
+  ownerWalletAddress String?
+  address            String
+  city               String
+  country            String
+  latitude           Float?
+  longitude          Float?
+  type               PropertyType
+  propertyType       PropertyCategory
+  bedrooms           Int?
+  bathrooms          Int?
+  area               Int
+  parking            Int?
+  amenities          String[]
+  images             String[]
+  featured           Boolean          @default(false)
+  verified           Boolean          @default(false)
+  tokenized          Boolean          @default(false)
+  tokenAddress       String?
+  network            String?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  
+  owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String
+  messages  Message[]
+  
+  @@map("properties")
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  content    String
+  createdAt  DateTime @default(now())
+  
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  propertyId String
+  from       User     @relation("MessageFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  fromId     String
+  to         User     @relation("MessageTo", fields: [toId], references: [id], onDelete: Cascade)
+  toId       String
+  
+  @@map("messages")
+}
+
+enum PropertyType {
+  RENT
+  SALE
+}
+
+enum PropertyCategory {
+  APARTMENT
+  HOUSE
+  CONDO
+  VILLA
+  COMMERCIAL
+}
