@@ -182,15 +182,16 @@ export function AdvancedSearchFilters({
               <Home className="h-4 w-4 text-orange-500" />
               <Label className="font-medium">Property Types</Label>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {PROPERTY_TYPES.map((type) => (
-                <div key={type} className="flex items-center space-x-3 p-2 rounded-md hover:bg-slate-50 transition-colors">
+                <div key={type} className="flex items-center space-x-3 p-3 rounded-md hover:bg-slate-50 transition-colors min-w-0">
                   <Checkbox
                     id={type}
                     checked={filters.propertyTypes.includes(type)}
                     onCheckedChange={() => togglePropertyType(type)}
+                    className="flex-shrink-0"
                   />
-                  <Label htmlFor={type} className="text-sm font-medium cursor-pointer">
+                  <Label htmlFor={type} className="text-sm font-medium cursor-pointer flex-1">
                     {type}
                   </Label>
                 </div>
