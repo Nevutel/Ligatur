@@ -284,19 +284,43 @@ export function AdvancedSearchFilters({
           {/* Amenities */}
           <div className="space-y-4">
             <Label className="font-medium">Amenities & Features</Label>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto p-2 border rounded-md bg-slate-50/50">
-              {AMENITIES.map((amenity) => (
-                <div key={amenity} className="flex items-center space-x-3 p-2 rounded-md hover:bg-white transition-colors">
-                  <Checkbox
-                    id={amenity}
-                    checked={filters.amenities.includes(amenity)}
-                    onCheckedChange={() => toggleAmenity(amenity)}
-                  />
-                  <Label htmlFor={amenity} className="text-sm font-medium cursor-pointer">
-                    {amenity}
-                  </Label>
+            <div className="space-y-3">
+              {/* Selected Amenities */}
+              {filters.amenities.length > 0 && (
+                <div className="p-3 bg-orange-50 border border-orange-200 rounded-md">
+                  <div className="text-sm font-medium text-orange-800 mb-2">Selected ({filters.amenities.length})</div>
+                  <div className="flex flex-wrap gap-2">
+                    {filters.amenities.map((amenity) => (
+                      <Badge
+                        key={amenity}
+                        variant="secondary"
+                        className="bg-orange-100 text-orange-800 border-orange-300 cursor-pointer hover:bg-orange-200 transition-colors"
+                        onClick={() => toggleAmenity(amenity)}
+                      >
+                        {amenity}
+                        <span className="ml-1 text-orange-600">×</span>
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
+
+              {/* Available Amenities */}
+              <div className="max-h-48 overflow-y-auto border rounded-md p-4 bg-slate-50/30">
+                <div className="text-sm font-medium text-slate-700 mb-3">Click to add:</div>
+                <div className="flex flex-wrap gap-2">
+                  {AMENITIES.filter(amenity => !filters.amenities.includes(amenity)).map((amenity) => (
+                    <Badge
+                      key={amenity}
+                      variant="outline"
+                      className="cursor-pointer hover:bg-slate-100 hover:border-slate-400 transition-colors text-slate-700 border-slate-300"
+                      onClick={() => toggleAmenity(amenity)}
+                    >
+                      + {amenity}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
