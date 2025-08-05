@@ -124,15 +124,15 @@ export function AdvancedSearchFilters({
       </CardHeader>
 
       {isExpanded && (
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-8 p-6">
           {/* Price Range */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
               <DollarSign className="h-4 w-4 text-orange-500" />
               <Label className="font-medium">Price Range</Label>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
                 <Label className="text-sm text-slate-600">Currency</Label>
                 <Select value={filters.currency} onValueChange={(value) => updateFilters({ currency: value })}>
                   <SelectTrigger>
@@ -147,7 +147,7 @@ export function AdvancedSearchFilters({
                   </SelectContent>
                 </Select>
               </div>
-              <div>
+              <div className="space-y-2">
                 <Label className="text-sm text-slate-600">Available From</Label>
                 <Input
                   type="date"
@@ -156,7 +156,7 @@ export function AdvancedSearchFilters({
                 />
               </div>
             </div>
-            <div className="px-2">
+            <div className="px-3 py-2">
               <Slider
                 value={filters.priceRange}
                 onValueChange={(value) => updateFilters({ priceRange: value as [number, number] })}
@@ -165,7 +165,7 @@ export function AdvancedSearchFilters({
                 step={0.1}
                 className="w-full"
               />
-              <div className="flex justify-between text-sm text-slate-600 mt-1">
+              <div className="flex justify-between text-sm text-slate-600 mt-2">
                 <span>
                   {filters.priceRange[0]} {filters.currency}
                 </span>
@@ -177,20 +177,20 @@ export function AdvancedSearchFilters({
           </div>
 
           {/* Property Types */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Home className="h-4 w-4 text-orange-500" />
               <Label className="font-medium">Property Types</Label>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {PROPERTY_TYPES.map((type) => (
-                <div key={type} className="flex items-center space-x-2">
+                <div key={type} className="flex items-center space-x-3 p-2 rounded-md hover:bg-slate-50 transition-colors">
                   <Checkbox
                     id={type}
                     checked={filters.propertyTypes.includes(type)}
                     onCheckedChange={() => togglePropertyType(type)}
                   />
-                  <Label htmlFor={type} className="text-sm">
+                  <Label htmlFor={type} className="text-sm font-medium cursor-pointer">
                     {type}
                   </Label>
                 </div>
@@ -199,8 +199,8 @@ export function AdvancedSearchFilters({
           </div>
 
           {/* Bedrooms & Bathrooms */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
               <Label className="font-medium">Bedrooms</Label>
               <Select value={filters.bedrooms} onValueChange={(value) => updateFilters({ bedrooms: value })}>
                 <SelectTrigger>
@@ -217,7 +217,7 @@ export function AdvancedSearchFilters({
                 </SelectContent>
               </Select>
             </div>
-            <div>
+            <div className="space-y-2">
               <Label className="font-medium">Bathrooms</Label>
               <Select value={filters.bathrooms} onValueChange={(value) => updateFilters({ bathrooms: value })}>
                 <SelectTrigger>
@@ -237,12 +237,12 @@ export function AdvancedSearchFilters({
           </div>
 
           {/* Square Footage */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Square className="h-4 w-4 text-orange-500" />
               <Label className="font-medium">Square Footage</Label>
             </div>
-            <div className="px-2">
+            <div className="px-3 py-2">
               <Slider
                 value={filters.sqftRange}
                 onValueChange={(value) => updateFilters({ sqftRange: value as [number, number] })}
@@ -251,7 +251,7 @@ export function AdvancedSearchFilters({
                 step={100}
                 className="w-full"
               />
-              <div className="flex justify-between text-sm text-slate-600 mt-1">
+              <div className="flex justify-between text-sm text-slate-600 mt-2">
                 <span>{filters.sqftRange[0].toLocaleString()} sqft</span>
                 <span>{filters.sqftRange[1].toLocaleString()}+ sqft</span>
               </div>
@@ -259,12 +259,12 @@ export function AdvancedSearchFilters({
           </div>
 
           {/* Year Built */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4 text-orange-500" />
               <Label className="font-medium">Year Built</Label>
             </div>
-            <div className="px-2">
+            <div className="px-3 py-2">
               <Slider
                 value={filters.yearBuiltRange}
                 onValueChange={(value) => updateFilters({ yearBuiltRange: value as [number, number] })}
@@ -273,7 +273,7 @@ export function AdvancedSearchFilters({
                 step={5}
                 className="w-full"
               />
-              <div className="flex justify-between text-sm text-slate-600 mt-1">
+              <div className="flex justify-between text-sm text-slate-600 mt-2">
                 <span>{filters.yearBuiltRange[0]}</span>
                 <span>{filters.yearBuiltRange[1]}</span>
               </div>
@@ -281,17 +281,17 @@ export function AdvancedSearchFilters({
           </div>
 
           {/* Amenities */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             <Label className="font-medium">Amenities & Features</Label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-40 overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto p-2 border rounded-md bg-slate-50/50">
               {AMENITIES.map((amenity) => (
-                <div key={amenity} className="flex items-center space-x-2">
+                <div key={amenity} className="flex items-center space-x-3 p-2 rounded-md hover:bg-white transition-colors">
                   <Checkbox
                     id={amenity}
                     checked={filters.amenities.includes(amenity)}
                     onCheckedChange={() => toggleAmenity(amenity)}
                   />
-                  <Label htmlFor={amenity} className="text-sm">
+                  <Label htmlFor={amenity} className="text-sm font-medium cursor-pointer">
                     {amenity}
                   </Label>
                 </div>
@@ -300,7 +300,7 @@ export function AdvancedSearchFilters({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 pt-4 border-t">
+          <div className="flex gap-4 pt-6 border-t">
             <Button onClick={onApplyFilters} className="flex-1">
               Apply Filters ({getActiveFiltersCount()})
             </Button>
