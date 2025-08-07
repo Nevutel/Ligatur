@@ -264,8 +264,9 @@ export async function getProperties(filters?: {
   maxPrice?: number
 }) {
   console.log("getProperties called with filters:", filters);
-  if (isDevelopment) {
-    console.log("getProperties: Using mock data.");
+
+  // Helper function to filter mock properties
+  const getFilteredMockProperties = () => {
     let filteredProperties = [...mockProperties]
 
     if (filters?.type) {
@@ -298,46 +299,52 @@ export async function getProperties(filters?: {
     })
   }
 
-  // Production Supabase logic
-  if (!supabase) {
-    console.error("getProperties: Supabase client not initialized. Returning empty array.")
-    return []
+  if (isDevelopment || !supabase) {
+    console.log("getProperties: Using mock data - either in development mode or Supabase not available.");
+    return getFilteredMockProperties()
   }
 
-  let query = supabase
-    .from("properties")
-    .select("*")
-    .order("featured", { ascending: false })
-    .order("created_at", { ascending: false })
+  // Production Supabase logic with fallback
+  try {
+    let query = supabase
+      .from("properties")
+      .select("*")
+      .order("featured", { ascending: false })
+      .order("created_at", { ascending: false })
 
-  if (filters?.type) {
-    query = query.eq("type", filters.type)
+    if (filters?.type) {
+      query = query.eq("type", filters.type)
+    }
+
+    if (filters?.location) {
+      query = query.ilike("location", `%${filters.location}%`)
+    }
+
+    if (filters?.country) {
+      query = query.eq("country", filters.country)
+    }
+
+    if (filters?.minPrice) {
+      query = query.gte("price", filters.minPrice)
+    }
+
+    if (filters?.maxPrice) {
+      query = query.lte("price", filters.maxPrice)
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+      console.error("getProperties: Error fetching properties from Supabase, falling back to mock data:", error)
+      return getFilteredMockProperties()
+    }
+
+    console.log(`getProperties: Fetched ${data.length} properties from Supabase.`);
+    return data as Property[]
+  } catch (error) {
+    console.error("getProperties: Exception occurred, falling back to mock data:", error)
+    return getFilteredMockProperties()
   }
-
-  if (filters?.location) {
-    query = query.ilike("location", `%${filters.location}%`)
-  }
-
-  if (filters?.country) {
-    query = query.eq("country", filters.country)
-  }
-
-  if (filters?.minPrice) {
-    query = query.gte("price", filters.minPrice)
-  }
-
-  if (filters?.maxPrice) {
-    query = query.lte("price", filters.maxPrice)
-  }
-
-  const { data, error } = await query
-
-  if (error) {
-    console.error("getProperties: Error fetching properties from Supabase:", error)
-    return []
-  }
-  console.log(`getProperties: Fetched ${data.length} properties from Supabase.`);
-  return data as Property[]
 }
 
 export async function getProperty(id: number) {
