@@ -2,18 +2,20 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Search, Filter, MapPin, Bed, Bath, Square, Home, Globe, Scale } from "lucide-react"
+import { Search, Filter, MapPin, Bed, Bath, Square, Home, Globe, Scale, Navigation, Train, Shield, TrendingUp, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
 import { getProperties, getAvailableCountries, type Property } from "@/lib/database"
 import { Header } from "@/components/header"
 import { ImageSlideshow } from "@/components/image-slideshow"
 import { CountrySearch } from "@/components/country-search"
 import { AdvancedSearchFilters } from "@/components/advanced-search-filters"
 import { PropertyComparisonTool } from "@/components/property-comparison-tool"
+import { AdvancedPropertySearch } from "@/components/advanced-property-search"
 
 interface SearchFilters {
   priceRange: [number, number]
