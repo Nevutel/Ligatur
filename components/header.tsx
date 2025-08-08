@@ -32,9 +32,12 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 px-4 lg:px-6 h-20 flex items-center glass border-b border-white/20 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 px-4 lg:px-6 h-20 flex items-center bg-white/80 backdrop-blur-xl border-b border-slate-200">
       <Link className="flex items-center justify-center" href="/">
-        <Logo variant="gradient" size="lg" textSize="xl" />
+        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-3">
+          <div className="w-6 h-6 bg-white rounded-md"></div>
+        </div>
+        <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Ligatur</span>
       </Link>
 
       {/* Desktop Navigation */}
