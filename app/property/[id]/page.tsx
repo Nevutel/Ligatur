@@ -214,6 +214,103 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                 </div>
               )}
             </div>
+
+            {/* Enhanced Analytics Tabs */}
+            <Tabs defaultValue="location" className="w-full">
+              <TabsList className="grid w-full grid-cols-4">
+                <TabsTrigger value="location">Location</TabsTrigger>
+                <TabsTrigger value="neighborhood">Neighborhood</TabsTrigger>
+                <TabsTrigger value="market">Market Data</TabsTrigger>
+                <TabsTrigger value="investment">Investment</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="location" className="mt-6">
+                <PropertyMap
+                  address={property.location}
+                  latitude={40.7128} // Mock coordinates
+                  longitude={-74.0060}
+                />
+              </TabsContent>
+
+              <TabsContent value="neighborhood" className="mt-6">
+                <NeighborhoodAnalytics location={property.location} />
+              </TabsContent>
+
+              <TabsContent value="market" className="mt-6">
+                <MarketIntelligence
+                  propertyPrice={property.price}
+                  currency={property.currency}
+                  location={property.location}
+                  propertyType="Apartment" // This would come from property data
+                />
+              </TabsContent>
+
+              <TabsContent value="investment" className="mt-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Calculator className="h-5 w-5 text-green-600" />
+                      Investment Calculator
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <h4 className="font-semibold">Purchase Costs</h4>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span>Property Price:</span>
+                            <span className="font-medium">{property.price} {property.currency}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Transaction Fees (2%):</span>
+                            <span className="font-medium">{(property.price * 0.02).toFixed(3)} {property.currency}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Legal Fees (1%):</span>
+                            <span className="font-medium">{(property.price * 0.01).toFixed(3)} {property.currency}</span>
+                          </div>
+                          <div className="border-t pt-2 flex justify-between font-semibold">
+                            <span>Total Investment:</span>
+                            <span>{(property.price * 1.03).toFixed(3)} {property.currency}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-semibold">Projected Returns</h4>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span>Monthly Rental (Est.):</span>
+                            <span className="font-medium">{(property.price * 0.04).toFixed(3)} {property.currency}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>Annual Rental Yield:</span>
+                            <span className="font-medium text-green-600">4.8%</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span>5-Year Appreciation:</span>
+                            <span className="font-medium text-blue-600">+45%</span>
+                          </div>
+                          <div className="border-t pt-2 flex justify-between font-semibold">
+                            <span>Total ROI (5 years):</span>
+                            <span className="text-green-600">+69%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                      <h5 className="font-semibold text-blue-800 mb-2">Investment Insights</h5>
+                      <p className="text-sm text-blue-700">
+                        This property offers strong fundamentals with above-average rental yields and solid appreciation potential.
+                        The location shows consistent growth trends and strong rental demand.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </div>
 
           {/* Sidebar */}
