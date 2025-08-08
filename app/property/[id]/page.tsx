@@ -20,14 +20,13 @@ import { NeighborhoodAnalytics } from "@/components/neighborhood-analytics"
 import { MarketIntelligence } from "@/components/market-intelligence"
 import { obfuscateEmail, formatPhone } from "@/utils/email-obfuscation"
 
-export default function PropertyPage({ params }: { params: { id: string } }) {
+export default function PropertyPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
   const router = useRouter()
   const { user } = useAuth()
   const [property, setProperty] = useState<Property | null>(null)
   const [loading, setLoading] = useState(true)
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
-
-  const propertyId = Number.parseInt(params.id)
+  const [propertyId, setPropertyId] = useState<number | null>(null)
 
   useEffect(() => {
     async function fetchProperty() {
