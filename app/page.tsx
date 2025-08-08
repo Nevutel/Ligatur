@@ -136,7 +136,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Instant Settlements</h3>
                 <p className="text-slate-600 leading-relaxed mb-6">
-                  Complete property purchases in minutes, not weeks. Peer-to-peer transactions reduce latency and bureaucracy.
+                  Complete property transactions in minutes, not weeks. Peer-to-peer transactions reduce latency and bureaucracy.
                 </p>
               </CardContent>
             </Card>
