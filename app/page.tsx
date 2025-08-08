@@ -209,7 +209,7 @@ export default function HomePage() {
                 <span className="text-2xl font-bold" style={{ fontFamily: 'Copperplate, "Copperplate Gothic Light", fantasy' }}>Ligatur</span>
               </Link>
               <p className="text-slate-400 max-w-md mb-6">
-                The future of real estate trading. Secure, instant, and global property transactions powered by cryptocurrency.
+                Experience the next generation of buying, selling, and renting properties. Direct, peer-to-peer, and decentralized real estate transactions powered by cryptocurrency.
               </p>
             </div>
             
