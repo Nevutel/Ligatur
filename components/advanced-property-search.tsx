@@ -111,15 +111,18 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button onClick={handleSearch} className="flex-1 sm:flex-none sm:px-8 h-12">
+            <div className="space-y-3 sm:space-y-0">
+              {/* Search Button - Full Width */}
+              <Button onClick={handleSearch} className="w-full h-12">
                 <Search className="h-4 w-4 mr-2" />
                 Search
               </Button>
+
+              {/* Filter Toggle Button - Full Width with Clear Separation */}
               <Button
                 variant="outline"
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="flex-1 sm:flex-none sm:px-6 h-12"
+                className="w-full h-12 relative z-10"
               >
                 <SlidersHorizontal className="h-4 w-4 mr-2" />
                 {showAdvanced ? 'Hide Filters' : 'Show Filters'}
