@@ -92,10 +92,6 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
     onSearch(filters)
   }
 
-  const saveCurrentSearch = () => {
-    const searchName = `${filters.location || 'All Areas'} - ${filters.propertyType.join(',') || 'All Types'}`
-    setSavedSearches(prev => [...prev, searchName])
-  }
 
   return (
     <div className={className}>
