@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Share2, Heart, Calculator, MapPin, Bed, Bath, Square, Calendar, Mail, Phone, Edit } from "lucide-react"
+import { ArrowLeft, Share2, Heart, Calculator, MapPin, Bed, Bath, Square, Calendar, Mail, Phone, Edit, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
