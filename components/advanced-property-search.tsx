@@ -97,28 +97,34 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
     <div className={className}>
       {/* Main Search Bar */}
       <Card className="mb-6">
-        <CardContent className="p-6">
-          <div className="flex gap-4 mb-4">
-            <div className="flex-1 relative">
+        <CardContent className="p-4 md:p-6">
+          {/* Location Search */}
+          <div className="space-y-4">
+            <div className="relative">
               <MapPin className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
               <Input
                 placeholder="Enter location, neighborhood, or address..."
                 value={filters.location}
                 onChange={(e) => handleFilterChange('location', e.target.value)}
-                className="pl-10"
+                className="pl-10 h-12"
               />
             </div>
-            <Button onClick={handleSearch} className="px-8">
-              <Search className="h-4 w-4 mr-2" />
-              Search
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => setShowAdvanced(!showAdvanced)}
-            >
-              <SlidersHorizontal className="h-4 w-4 mr-2" />
-              Filters
-            </Button>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button onClick={handleSearch} className="flex-1 sm:flex-none sm:px-8 h-12">
+                <Search className="h-4 w-4 mr-2" />
+                Search
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowAdvanced(!showAdvanced)}
+                className="flex-1 sm:flex-none sm:px-6 h-12"
+              >
+                <SlidersHorizontal className="h-4 w-4 mr-2" />
+                {showAdvanced ? 'Hide Filters' : 'Show Filters'}
+              </Button>
+            </div>
           </div>
 
 
