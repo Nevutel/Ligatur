@@ -115,18 +115,18 @@ export function Header() {
           variant="ghost"
           size="sm"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 rounded-full hover:bg-white/10"
+          className="p-2 rounded-full hover:bg-slate-100"
         >
-          {isMobileMenuOpen ? <X className="h-5 w-5 text-neutral-700" /> : <Menu className="h-5 w-5 text-neutral-700" />}
+          {isMobileMenuOpen ? <X className="h-5 w-5 text-slate-700" /> : <Menu className="h-5 w-5 text-slate-700" />}
         </Button>
       </div>
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="absolute top-20 left-0 right-0 glass border-white/20 shadow-2xl z-50 md:hidden backdrop-blur-xl">
+        <div className="absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-xl border-b shadow-2xl z-50 md:hidden">
           <nav className="flex flex-col p-6 space-y-6">
             <Link
-              className="text-lg font-medium text-neutral-700 hover:text-primary py-3 px-4 rounded-xl hover:bg-white/10 transition-all"
+              className="text-lg font-medium text-slate-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-slate-100 transition-all"
               href="/listings"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -138,25 +138,25 @@ export function Header() {
                 {user ? (
                   <>
                     <Link
-                      className="text-lg font-medium text-neutral-700 hover:text-primary py-3 px-4 rounded-xl hover:bg-white/10 transition-all"
+                      className="text-lg font-medium text-slate-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-slate-100 transition-all"
                       href="/create"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       List Property
                     </Link>
                     <Link
-                      className="text-lg font-medium text-neutral-700 hover:text-primary py-3 px-4 rounded-xl hover:bg-white/10 transition-all"
+                      className="text-lg font-medium text-slate-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-slate-100 transition-all"
                       href="/dashboard"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       My Properties
                     </Link>
-                    <div className="border-t border-white/20 pt-6">
-                      <div className="flex items-center gap-3 mb-4 p-3 rounded-xl bg-white/5">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <div className="border-t border-slate-200 pt-6">
+                      <div className="flex items-center gap-3 mb-4 p-3 rounded-xl bg-slate-50">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                           <User className="h-5 w-5 text-white" />
                         </div>
-                        <div className="text-sm font-medium text-neutral-700 truncate">{user.email}</div>
+                        <div className="text-sm font-medium text-slate-700 truncate">{user.email}</div>
                       </div>
                       <Button
                         variant="outline"
@@ -175,13 +175,13 @@ export function Header() {
                 ) : (
                   <>
                     <Link
-                      className="text-lg font-medium text-neutral-700 hover:text-primary py-3 px-4 rounded-xl hover:bg-white/10 transition-all"
+                      className="text-lg font-medium text-slate-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-slate-100 transition-all"
                       href="/auth/login"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Sign In
                     </Link>
-                    <Button asChild className="btn-primary w-full rounded-xl py-3 text-base font-semibold">
+                    <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white w-full rounded-xl py-3 text-base font-semibold">
                       <Link href="/auth/signup" onClick={() => setIsMobileMenuOpen(false)}>
                         Create Account
                       </Link>
