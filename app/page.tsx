@@ -92,21 +92,6 @@ export default function HomePage() {
                   className="w-full aspect-[4/3] object-cover rounded-2xl"
                 />
                 
-                {/* Floating Cards */}
-                <div className="absolute -top-4 -right-4 bg-white/90 backdrop-blur-sm rounded-xl p-4 border border-white/50 shadow-lg">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm font-medium">Live Bidding</span>
-                  </div>
-                </div>
-                
-                <div className="absolute -bottom-4 -left-4 bg-white/90 backdrop-blur-sm rounded-xl p-4 border border-white/50 shadow-lg">
-                  <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                    <span className="text-sm font-bold">4.9</span>
-                    <span className="text-xs text-slate-600">Rating</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
