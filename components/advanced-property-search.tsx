@@ -121,21 +121,6 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
             </Button>
           </div>
 
-          {/* Quick Filters */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
-            <Badge variant="outline" className="cursor-pointer hover:bg-slate-100 justify-center py-2">
-              Under 3 BTC
-            </Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-slate-100 justify-center py-2">
-              High Walk Score
-            </Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-slate-100 justify-center py-2">
-              Near Transit
-            </Badge>
-            <Badge variant="outline" className="cursor-pointer hover:bg-slate-100 justify-center py-2">
-              Investment Grade
-            </Badge>
-          </div>
 
           {/* Advanced Filters */}
           {showAdvanced && (
