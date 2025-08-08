@@ -410,133 +410,79 @@ export default function ListingsPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
-                {sortedProperties.map((property) => {
-                  // Generate mock analytics for each property
-                  const walkScore = Math.floor(Math.random() * 40) + 60
-                  const safetyScore = Math.floor(Math.random() * 30) + 70
-                  const schoolRating = Math.floor(Math.random() * 30) + 70
-                  const investmentGrade = ['A+', 'A', 'A-', 'B+', 'B'][Math.floor(Math.random() * 5)]
-                  const roiPercent = Math.floor(Math.random() * 15) + 8
-
-                  return (
-                    <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow border-0 shadow-md">
-                      <div className="relative">
-                        <div className="cursor-pointer" onClick={() => openSlideshow(property)}>
-                          <img
-                            src={getDisplayImage(property) || "/placeholder.svg"}
-                            alt={property.title}
-                            className="w-full h-48 md:h-64 object-cover hover:opacity-90 transition-opacity"
-                            onError={(e) => {
-                              // Fallback if image fails to load
-                              const target = e.target as HTMLImageElement
-                              target.src =
-                                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                            }}
-                          />
-                          {property.images && property.images.length > 1 && (
-                            <div className="absolute top-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs md:text-sm">
-                              +{property.images.length - 1} more
-                            </div>
-                          )}
-                        </div>
-                        {property.featured && (
-                          <Badge className="absolute top-2 right-2 bg-orange-500 text-xs">Featured</Badge>
+                {sortedProperties.map((property) => (
+                  <Card key={property.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                    <div className="relative">
+                      <div className="cursor-pointer" onClick={() => openSlideshow(property)}>
+                        <img
+                          src={getDisplayImage(property) || "/placeholder.svg"}
+                          alt={property.title}
+                          className="w-full h-48 md:h-64 object-cover hover:opacity-90 transition-opacity"
+                          onError={(e) => {
+                            // Fallback if image fails to load
+                            const target = e.target as HTMLImageElement
+                            target.src =
+                              "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                          }}
+                        />
+                        {property.images && property.images.length > 1 && (
+                          <div className="absolute top-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs md:text-sm">
+                            +{property.images.length - 1} more
+                          </div>
                         )}
-                        <Badge
-                          variant={property.type === "sale" ? "default" : "secondary"}
-                          className="absolute bottom-2 right-2 text-xs"
-                        >
-                          {property.type === "sale" ? "For Sale" : "For Rent"}
-                        </Badge>
                       </div>
-                      <CardContent className="p-4">
-                        <h3 className="font-semibold text-base md:text-lg mb-2 line-clamp-2 break-words">
-                          {property.title}
-                        </h3>
-                        <div className="space-y-1 mb-3">
-                          <div className="flex items-start text-slate-600">
-                            <MapPin className="h-4 w-4 mr-1 mt-0.5 flex-shrink-0" />
-                            <span className="text-sm break-words line-clamp-1">{property.location}</span>
-                          </div>
-                          {property.country && (
-                            <div className="flex items-center text-slate-500">
-                              <Globe className="h-3 w-3 mr-1 flex-shrink-0" />
-                              <span className="text-xs">{property.country}</span>
-                            </div>
-                          )}
+                      {property.featured && (
+                        <Badge className="absolute top-2 right-2 bg-orange-500 text-xs">Featured</Badge>
+                      )}
+                      <Badge
+                        variant={property.type === "sale" ? "default" : "secondary"}
+                        className="absolute bottom-2 right-2 text-xs"
+                      >
+                        {property.type === "sale" ? "For Sale" : "For Rent"}
+                      </Badge>
+                    </div>
+                    <CardContent className="p-3 md:p-4">
+                      <h3 className="font-semibold text-base md:text-lg mb-2 line-clamp-2 break-words">
+                        {property.title}
+                      </h3>
+                      <div className="space-y-1 mb-2">
+                        <div className="flex items-start text-slate-600">
+                          <MapPin className="h-4 w-4 mr-1 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm break-words line-clamp-1">{property.location}</span>
                         </div>
-
-                        {/* Enhanced Analytics Section */}
-                        <div className="bg-slate-50 rounded-lg p-3 mb-3">
-                          <div className="grid grid-cols-3 gap-3 text-center">
-                            <div>
-                              <div className="flex items-center justify-center mb-1">
-                                <Navigation className="h-3 w-3 text-blue-600 mr-1" />
-                                <span className="text-xs font-medium">Walk</span>
-                              </div>
-                              <div className="text-lg font-bold text-blue-600">{walkScore}</div>
-                            </div>
-                            <div>
-                              <div className="flex items-center justify-center mb-1">
-                                <Shield className="h-3 w-3 text-green-600 mr-1" />
-                                <span className="text-xs font-medium">Safety</span>
-                              </div>
-                              <div className="text-lg font-bold text-green-600">{safetyScore}</div>
-                            </div>
-                            <div>
-                              <div className="flex items-center justify-center mb-1">
-                                <Star className="h-3 w-3 text-purple-600 mr-1" />
-                                <span className="text-xs font-medium">Schools</span>
-                              </div>
-                              <div className="text-lg font-bold text-purple-600">{schoolRating}</div>
-                            </div>
+                        {property.country && (
+                          <div className="flex items-center text-slate-500">
+                            <Globe className="h-3 w-3 mr-1 flex-shrink-0" />
+                            <span className="text-xs">{property.country}</span>
                           </div>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-between text-xs md:text-sm text-slate-600 mb-3 gap-2">
+                        <div className="flex items-center">
+                          <Bed className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+                          <span>{property.bedrooms} bed</span>
                         </div>
-
-                        {/* Investment Metrics */}
-                        <div className="flex justify-between items-center mb-3 p-2 bg-green-50 rounded-lg">
-                          <div className="flex items-center">
-                            <TrendingUp className="h-4 w-4 text-green-600 mr-2" />
-                            <span className="text-sm font-medium">Investment Grade</span>
-                          </div>
-                          <Badge className="bg-green-100 text-green-800 text-xs">{investmentGrade}</Badge>
+                        <div className="flex items-center">
+                          <Bath className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+                          <span>{property.bathrooms} bath</span>
                         </div>
-
-                        <div className="flex items-center justify-between text-xs md:text-sm text-slate-600 mb-3 gap-2">
-                          <div className="flex items-center">
-                            <Bed className="h-3 w-3 md:h-4 md:w-4 mr-1" />
-                            <span>{property.bedrooms} bed</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Bath className="h-3 w-3 md:h-4 md:w-4 mr-1" />
-                            <span>{property.bathrooms} bath</span>
-                          </div>
-                          <div className="flex items-center">
-                            <Square className="h-3 w-3 md:h-4 md:w-4 mr-1" />
-                            <span>{property.sqft} sqft</span>
-                          </div>
+                        <div className="flex items-center">
+                          <Square className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+                          <span>{property.sqft} sqft</span>
                         </div>
-
-                        {/* Price and ROI */}
-                        <div className="flex justify-between items-center mb-3">
-                          <div className="text-lg md:text-xl font-bold text-blue-600 break-words">
-                            {property.price} {property.currency}
-                            {property.type === "rent" && "/month"}
-                          </div>
-                          <div className="text-right">
-                            <div className="text-xs text-slate-500">Est. ROI</div>
-                            <div className="text-sm font-bold text-green-600">+{roiPercent}%</div>
-                          </div>
-                        </div>
-                      </CardContent>
-                      <CardFooter className="p-4 pt-0">
-                        <Button asChild className="w-full text-sm md:text-base">
-                          <Link href={`/property/${property.id}`}>View Analytics</Link>
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  )
-                })}
+                      </div>
+                      <div className="text-lg md:text-xl font-bold text-orange-600 break-words">
+                        {property.price} {property.currency}
+                        {property.type === "rent" && "/month"}
+                      </div>
+                    </CardContent>
+                    <CardFooter className="p-3 md:p-4 pt-0">
+                      <Button asChild className="w-full text-sm md:text-base">
+                        <Link href={`/property/${property.id}`}>View Listing</Link>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
               </div>
             )}
           </div>
