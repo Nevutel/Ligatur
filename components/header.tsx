@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Home, User, LogOut, Plus, Menu, X } from "lucide-react"
+import { User, LogOut, Plus, Menu, X, Search, Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -10,10 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/components/auth-provider"
 import { signOut } from "@/lib/auth"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { Logo } from "@/components/ui/logo"
 
 export function Header() {
   const { user, loading } = useAuth()
@@ -30,12 +32,9 @@ export function Header() {
   }
 
   return (
-    <header className="px-4 lg:px-6 h-16 flex items-center border-b bg-white">
+    <header className="sticky top-0 z-50 px-4 lg:px-6 h-20 flex items-center glass border-b border-white/20 backdrop-blur-xl">
       <Link className="flex items-center justify-center" href="/">
-        <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
-          <Home className="h-5 w-5 text-white" />
-        </div>
-        <span className="ml-2 text-xl font-bold">Ligatur</span>
+        <Logo variant="gradient" size="lg" textSize="xl" />
       </Link>
 
       {/* Desktop Navigation */}
