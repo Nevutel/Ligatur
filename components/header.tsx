@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/components/auth-provider"
 import { signOut } from "@/lib/auth"
 import { useRouter } from "next/navigation"
