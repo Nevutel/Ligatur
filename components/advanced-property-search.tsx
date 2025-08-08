@@ -281,28 +281,6 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
       </Card>
 
 
-      {/* Saved Searches */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Bell className="h-5 w-5 text-blue-600" />
-            Saved Searches
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            {savedSearches.map((search, index) => (
-              <div key={index} className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
-                <span className="text-sm font-medium">{search}</span>
-                <div className="flex gap-2">
-                  <Button variant="ghost" size="sm">Run</Button>
-                  <Button variant="ghost" size="sm">Edit</Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }
