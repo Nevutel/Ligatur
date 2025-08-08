@@ -71,7 +71,7 @@ export function AdvancedSearchFilters({
   onApplyFilters,
   onClearFilters,
 }: AdvancedSearchFiltersProps) {
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(true)
 
   const updateFilters = (updates: Partial<SearchFilters>) => {
     onFiltersChange({ ...filters, ...updates })
