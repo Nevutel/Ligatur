@@ -98,6 +98,7 @@ export function MarketIntelligence({
             <BarChart3 className="h-5 w-5 text-blue-600" />
             Market Intelligence
           </CardTitle>
+          <p className="text-xs text-slate-400 mt-2">Source: Zillow API, MLS Data & Market Analytics</p>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Price Comparison */}
@@ -171,6 +172,7 @@ export function MarketIntelligence({
             <TrendingUp className="h-5 w-5 text-green-600" />
             Investment Analysis
           </CardTitle>
+          <p className="text-xs text-slate-400 mt-2">Source: Real Estate Investment Analytics & ROI Calculators</p>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -206,6 +208,7 @@ export function MarketIntelligence({
             <Calendar className="h-5 w-5 text-purple-600" />
             Market Predictions
           </CardTitle>
+          <p className="text-xs text-slate-400 mt-2">Source: AI Market Forecasting & Trend Analysis</p>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
