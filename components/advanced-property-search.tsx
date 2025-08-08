@@ -293,28 +293,6 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
         </CardContent>
       </Card>
 
-      {/* AI Recommendations */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-purple-600" />
-            AI-Powered Recommendations
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {AI_RECOMMENDATIONS.map((rec, index) => (
-              <div key={index} className="p-4 border rounded-lg hover:shadow-md transition-shadow cursor-pointer">
-                <div className="flex justify-between items-start mb-2">
-                  <h4 className="font-medium">{rec.title}</h4>
-                  <Badge className={rec.color}>{rec.badge}</Badge>
-                </div>
-                <p className="text-sm text-slate-600">{rec.description}</p>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Saved Searches */}
       <Card>
