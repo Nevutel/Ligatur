@@ -148,7 +148,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Global Access</h3>
                 <p className="text-slate-600 leading-relaxed mb-6">
-                  Invest in properties worldwide without traditional banking limitations or currency restrictions.
+                  Access properties worldwide without traditional banking limitations or currency restrictions.
                 </p>
                 <Badge variant="secondary" className="px-3 py-1">
                   150+ Countries
