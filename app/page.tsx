@@ -181,7 +181,7 @@ export default function HomePage() {
       <section className="w-full py-24 bg-gradient-to-br from-blue-600 to-purple-600">
         <div className="container mx-auto px-4 max-w-7xl text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Ready to Start Trading?
+            Ready to Decentralize?
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Join the revolution of cryptocurrency real estate. Start exploring properties today.
