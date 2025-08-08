@@ -83,11 +83,6 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
   })
 
   const [showAdvanced, setShowAdvanced] = useState(false)
-  const [savedSearches, setSavedSearches] = useState([
-    'Downtown Condos under 5 BTC',
-    'Family Homes with Walk Score 80+',
-    'Investment Properties near Transit'
-  ])
 
   const handleFilterChange = (key: keyof SearchFilters, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }))
