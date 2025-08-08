@@ -33,7 +33,7 @@ export default function HomePage() {
                   </span>
                 </h1>
                 <p className="text-xl md:text-2xl text-slate-600 max-w-2xl leading-relaxed">
-                  Experience the next generation of property trading. Secure, instant, and global real estate transactions powered by cryptocurrency.
+                  Experience the next generation of buying, selling, and renting properties. Direct, peer-to-peer, and decentralized real estate transactions powered by cryptocurrency.
                 </p>
               </div>
 
