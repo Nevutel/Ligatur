@@ -43,7 +43,7 @@ export function Header() {
       {/* Desktop Navigation */}
       <nav className="ml-auto hidden md:flex gap-2 items-center">
         <Link
-          className="relative text-sm font-medium text-neutral-700 hover:text-primary transition-colors px-4 py-2 rounded-full hover:bg-white/10"
+          className="relative text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors px-4 py-2 rounded-full hover:bg-slate-100"
           href="/listings"
         >
           Browse Properties
@@ -54,32 +54,24 @@ export function Header() {
             {user ? (
               <>
                 <Link
-                  className="text-sm font-medium text-neutral-700 hover:text-primary transition-colors px-4 py-2 rounded-full hover:bg-white/10"
+                  className="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors px-4 py-2 rounded-full hover:bg-slate-100"
                   href="/create"
                 >
                   List Property
                 </Link>
 
-                {/* Notifications */}
-                <Button variant="ghost" size="sm" className="relative p-2 rounded-full hover:bg-white/10">
-                  <Bell className="h-5 w-5 text-neutral-700" />
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs bg-brand-secondary">
-                    2
-                  </Badge>
-                </Button>
-
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-white/10">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <Button variant="ghost" size="sm" className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-slate-100">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                         <User className="h-4 w-4 text-white" />
                       </div>
-                      <span className="hidden lg:inline max-w-32 truncate text-sm font-medium text-neutral-700">
+                      <span className="hidden lg:inline max-w-32 truncate text-sm font-medium text-slate-700">
                         {user.email?.split('@')[0]}
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56 glass border-white/20">
+                  <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard" className="flex items-center gap-2">
                         <User className="h-4 w-4" />
@@ -103,12 +95,12 @@ export function Header() {
             ) : (
               <>
                 <Link
-                  className="text-sm font-medium text-neutral-700 hover:text-primary transition-colors px-4 py-2 rounded-full hover:bg-white/10"
+                  className="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors px-4 py-2 rounded-full hover:bg-slate-100"
                   href="/auth/login"
                 >
                   Sign In
                 </Link>
-                <Button asChild className="btn-primary text-sm font-semibold px-6 py-2 rounded-full">
+                <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2 rounded-full">
                   <Link href="/auth/signup">Create Account</Link>
                 </Button>
               </>
