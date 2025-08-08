@@ -109,7 +109,7 @@ export default function HomePage() {
               Revolutionizing Real Estate
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Experience seamless property transactions with cutting-edge technology and unmatched security.
+              Experience seamless property transactions with cutting-edge technology, human-moderated listings, and unmatched security.
             </p>
           </div>
 
