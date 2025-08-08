@@ -206,7 +206,7 @@ export default function HomePage() {
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-3">
                   <MapPin className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-2xl font-bold">Ligatur</span>
+                <span className="text-2xl font-bold" style={{ fontFamily: 'Copperplate, "Copperplate Gothic Light", fantasy' }}>Ligatur</span>
               </Link>
               <p className="text-slate-400 max-w-md mb-6">
                 The future of real estate trading. Secure, instant, and global property transactions powered by cryptocurrency.
