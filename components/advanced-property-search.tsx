@@ -270,13 +270,9 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
                 </div>
               </div>
 
-              <div className="flex gap-3 pt-4">
-                <Button onClick={handleSearch} className="flex-1">
+              <div className="pt-4">
+                <Button onClick={handleSearch} className="w-full">
                   Apply Filters
-                </Button>
-                <Button variant="outline" onClick={saveCurrentSearch}>
-                  <Bookmark className="h-4 w-4 mr-2" />
-                  Save Search
                 </Button>
               </div>
             </div>
