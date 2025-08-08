@@ -63,11 +63,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return
     }
 
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
-      setLoading(false)
-    })
+    // Get initial session with retry logic
+    const getSessionWithRetry = async (retryCount = 0) => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        setUser(session?.user ?? null)
+        setLoading(false)
+      } catch (error) {
+        console.error("AuthProvider: Error getting session:", error)
+
+        // Retry for network errors
+        if (retryCount < 2 && (error as Error).message.includes('NetworkError')) {
+          console.log(`AuthProvider: Retrying session fetch (attempt ${retryCount + 1})`)
+          setTimeout(() => getSessionWithRetry(retryCount + 1), 1000 * (retryCount + 1))
+        } else {
+          setLoading(false)
+        }
+      }
+    }
+
+    getSessionWithRetry()
 
     // Listen for auth changes
     const {
