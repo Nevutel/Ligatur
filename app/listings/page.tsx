@@ -315,20 +315,22 @@ export default function ListingsPage() {
           {/* Main Content */}
           <div className="lg:col-span-3 space-y-6">
             {/* Search and Filters */}
-            <div className="flex flex-col gap-4">
-              <div className="flex-1 relative">
+            <div className="space-y-6">
+              {/* Search Bar */}
+              <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                 <Input
                   placeholder="Search properties, locations, or countries..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 h-12"
                 />
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* Filter Controls */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Select value={filterType} onValueChange={setFilterType}>
-                  <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectTrigger className="h-12">
                     <Filter className="h-4 w-4 mr-2" />
                     <SelectValue placeholder="Property Type" />
                   </SelectTrigger>
@@ -340,7 +342,7 @@ export default function ListingsPage() {
                 </Select>
 
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-full sm:w-[180px]">
+                  <SelectTrigger className="h-12">
                     <SelectValue placeholder="Sort By" />
                   </SelectTrigger>
                   <SelectContent>
@@ -354,11 +356,13 @@ export default function ListingsPage() {
                 <Button
                   variant={showComparison ? "default" : "outline"}
                   onClick={() => setShowComparison(!showComparison)}
-                  className="w-full sm:w-auto"
+                  className="h-12"
                 >
                   <Scale className="h-4 w-4 mr-2" />
                   Compare
                 </Button>
+
+                <div className="lg:block hidden"></div> {/* Spacer for grid alignment */}
               </div>
 
               {/* Active Filters */}
