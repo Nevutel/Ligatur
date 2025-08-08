@@ -29,12 +29,30 @@ export default function PropertyPage({ params }: { params: Promise<{ id: string 
   const [propertyId, setPropertyId] = useState<number | null>(null)
 
   useEffect(() => {
-    async function fetchProperty() {
-      if (isNaN(propertyId)) {
-        router.push("/listings")
-        return
-      }
+    async function initializeParams() {
+      try {
+        const resolvedParams = await Promise.resolve(params)
+        const id = Number.parseInt(resolvedParams.id)
 
+        if (isNaN(id)) {
+          router.push("/listings")
+          return
+        }
+
+        setPropertyId(id)
+      } catch (error) {
+        console.error("Error resolving params:", error)
+        router.push("/listings")
+      }
+    }
+
+    initializeParams()
+  }, [params, router])
+
+  useEffect(() => {
+    if (propertyId === null) return
+
+    async function fetchProperty() {
       try {
         setLoading(true)
         const data = await getProperty(propertyId)
