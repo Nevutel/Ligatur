@@ -172,7 +172,7 @@ export function PropertyMap({ address, latitude, longitude, title, className }: 
               </a>
             </Button>
           </div>
-        </CardHeader>
+        </div>
       </CardHeader>
       <CardContent>
         {mapError && (
