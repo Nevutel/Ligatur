@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { User, LogOut, Plus, Menu, X, Home } from "lucide-react"
+import { User, LogOut, Plus, Menu, X, Home, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
