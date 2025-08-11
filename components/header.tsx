@@ -36,7 +36,7 @@ export function Header() {
         <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-3">
           <Home className="h-6 w-6 text-white" />
         </div>
-        <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" style={{ fontFamily: 'Copperplate, "Copperplate Gothic Light", fantasy' }}>Ligatur</span>
+        <span className="text-2xl font-bold logo-gradient-flow" style={{ fontFamily: 'Copperplate, "Copperplate Gothic Light", fantasy' }}>Ligatur</span>
       </Link>
 
       {/* Desktop Navigation */}
