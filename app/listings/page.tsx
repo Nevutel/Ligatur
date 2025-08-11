@@ -216,6 +216,9 @@ export default function ListingsPage() {
 
   // Helper function to get display image
   const getDisplayImage = (property: Property) => {
+    // Debug logging
+    console.log(`Property ${property.id} images:`, property.images)
+
     // Always try to get a valid image first
     if (property.images && property.images.length > 0) {
       const firstImage = property.images[0]
@@ -224,12 +227,15 @@ export default function ListingsPage() {
           !firstImage.startsWith("blob:") &&
           !firstImage.includes("blob.vercel.app") &&
           firstImage.startsWith("http")) {
+        console.log(`Using property image for ${property.id}:`, firstImage)
         return firstImage
       }
     }
 
     // If no valid images, always return a stock photo
-    return getStockPhoto(property.id)
+    const stockPhoto = getStockPhoto(property.id)
+    console.log(`Using stock photo for ${property.id}:`, stockPhoto)
+    return stockPhoto
   }
 
   // Helper function to get slideshow images
