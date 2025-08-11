@@ -448,7 +448,7 @@ export default function ListingsPage() {
                     <div className="relative">
                       <div className="cursor-pointer" onClick={() => openSlideshow(property)}>
                         <img
-                          src={getDisplayImage(property) || "/placeholder.svg"}
+                          src={getDisplayImage(property)}
                           alt={property.title}
                           className="w-full h-48 md:h-64 object-cover hover:opacity-90 transition-opacity"
                           onError={(e) => {
