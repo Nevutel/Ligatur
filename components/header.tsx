@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Home, User, LogOut, Plus, Menu, X } from "lucide-react"
+import { User, LogOut, Plus, Menu, X, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -14,6 +14,7 @@ import { useAuth } from "@/components/auth-provider"
 import { signOut } from "@/lib/auth"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { Logo } from "@/components/ui/logo"
 
 export function Header() {
   const { user, loading } = useAuth()
@@ -30,35 +31,46 @@ export function Header() {
   }
 
   return (
-    <header className="px-4 lg:px-6 h-16 flex items-center border-b bg-white">
+    <header className="sticky top-0 z-50 px-4 lg:px-6 h-20 flex items-center bg-white/80 backdrop-blur-xl border-b border-slate-200">
       <Link className="flex items-center justify-center" href="/">
-        <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
-          <Home className="h-5 w-5 text-white" />
+        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-3">
+          <Home className="h-6 w-6 text-white" />
         </div>
-        <span className="ml-2 text-xl font-bold">Ligatur</span>
+        <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" style={{ fontFamily: 'Copperplate, "Copperplate Gothic Light", fantasy' }}>Ligatur</span>
       </Link>
 
       {/* Desktop Navigation */}
-      <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-        <Link className="text-base font-medium hover:underline underline-offset-4" href="/listings">
-          Browse
+      <nav className="ml-auto hidden md:flex gap-2 items-center">
+        <Link
+          className="relative text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors px-4 py-2 rounded-full hover:bg-slate-100"
+          href="/listings"
+        >
+          Browse Properties
         </Link>
 
         {!loading && (
           <>
             {user ? (
               <>
-                <Link className="text-base font-medium hover:underline underline-offset-4" href="/create">
+                <Link
+                  className="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors px-4 py-2 rounded-full hover:bg-slate-100"
+                  href="/create"
+                >
                   List Property
                 </Link>
+
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-2">
-                      <User className="h-4 w-4" />
-                      <span className="hidden sm:inline max-w-32 truncate">{user.email}</span>
+                    <Button variant="ghost" size="sm" className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-slate-100">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                        <User className="h-4 w-4 text-white" />
+                      </div>
+                      <span className="hidden lg:inline max-w-32 truncate text-sm font-medium text-slate-700">
+                        {user.email?.split('@')[0]}
+                      </span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard" className="flex items-center gap-2">
                         <User className="h-4 w-4" />
@@ -72,7 +84,7 @@ export function Header() {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2 text-red-600">
+                    <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2 text-red-500 hover:text-red-600">
                       <LogOut className="h-4 w-4" />
                       Sign Out
                     </DropdownMenuItem>
@@ -81,11 +93,14 @@ export function Header() {
               </>
             ) : (
               <>
-                <Link className="text-base font-medium hover:underline underline-offset-4" href="/auth/login">
+                <Link
+                  className="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors px-4 py-2 rounded-full hover:bg-slate-100"
+                  href="/auth/login"
+                >
                   Sign In
                 </Link>
-                <Button asChild size="sm">
-                  <Link href="/auth/signup">Sign Up</Link>
+                <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-2 rounded-full">
+                  <Link href="/auth/signup">Create Account</Link>
                 </Button>
               </>
             )}
@@ -95,17 +110,22 @@ export function Header() {
 
       {/* Mobile Navigation */}
       <div className="ml-auto md:hidden">
-        <Button variant="ghost" size="sm" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2">
-          {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 rounded-full hover:bg-slate-100"
+        >
+          {isMobileMenuOpen ? <X className="h-5 w-5 text-slate-700" /> : <Menu className="h-5 w-5 text-slate-700" />}
         </Button>
       </div>
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="absolute top-16 left-0 right-0 bg-white border-b shadow-lg z-50 md:hidden">
-          <nav className="flex flex-col p-4 space-y-4">
+        <div className="absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-xl border-b shadow-2xl z-50 md:hidden">
+          <nav className="flex flex-col p-6 space-y-6">
             <Link
-              className="text-base font-medium hover:text-orange-600 py-2"
+              className="text-lg font-medium text-slate-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-slate-100 transition-all"
               href="/listings"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -117,21 +137,26 @@ export function Header() {
                 {user ? (
                   <>
                     <Link
-                      className="text-base font-medium hover:text-orange-600 py-2"
+                      className="text-lg font-medium text-slate-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-slate-100 transition-all"
                       href="/create"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       List Property
                     </Link>
                     <Link
-                      className="text-base font-medium hover:text-orange-600 py-2"
+                      className="text-lg font-medium text-slate-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-slate-100 transition-all"
                       href="/dashboard"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       My Properties
                     </Link>
-                    <div className="border-t pt-4">
-                      <div className="text-sm text-slate-600 mb-2 truncate">{user.email}</div>
+                    <div className="border-t border-slate-200 pt-6">
+                      <div className="flex items-center gap-3 mb-4 p-3 rounded-xl bg-slate-50">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                          <User className="h-5 w-5 text-white" />
+                        </div>
+                        <div className="text-sm font-medium text-slate-700 truncate">{user.email}</div>
+                      </div>
                       <Button
                         variant="outline"
                         size="sm"
@@ -139,7 +164,7 @@ export function Header() {
                           handleSignOut()
                           setIsMobileMenuOpen(false)
                         }}
-                        className="text-red-600 hover:text-red-700"
+                        className="w-full text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600"
                       >
                         <LogOut className="h-4 w-4 mr-2" />
                         Sign Out
@@ -149,15 +174,15 @@ export function Header() {
                 ) : (
                   <>
                     <Link
-                      className="text-base font-medium hover:text-orange-600 py-2"
+                      className="text-lg font-medium text-slate-700 hover:text-blue-600 py-3 px-4 rounded-xl hover:bg-slate-100 transition-all"
                       href="/auth/login"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Sign In
                     </Link>
-                    <Button asChild size="sm" className="self-start">
+                    <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white w-full rounded-xl py-3 text-base font-semibold">
                       <Link href="/auth/signup" onClick={() => setIsMobileMenuOpen(false)}>
-                        Sign Up
+                        Create Account
                       </Link>
                     </Button>
                   </>

@@ -264,8 +264,9 @@ export async function getProperties(filters?: {
   maxPrice?: number
 }) {
   console.log("getProperties called with filters:", filters);
-  if (isDevelopment) {
-    console.log("getProperties: Using mock data.");
+
+  // Helper function to filter mock properties
+  const getFilteredMockProperties = () => {
     let filteredProperties = [...mockProperties]
 
     if (filters?.type) {
@@ -298,46 +299,52 @@ export async function getProperties(filters?: {
     })
   }
 
-  // Production Supabase logic
-  if (!supabase) {
-    console.error("getProperties: Supabase client not initialized. Returning empty array.")
-    return []
+  if (isDevelopment || !supabase) {
+    console.log("getProperties: Using mock data - either in development mode or Supabase not available.");
+    return getFilteredMockProperties()
   }
 
-  let query = supabase
-    .from("properties")
-    .select("*")
-    .order("featured", { ascending: false })
-    .order("created_at", { ascending: false })
+  // Production Supabase logic with fallback
+  try {
+    let query = supabase
+      .from("properties")
+      .select("*")
+      .order("featured", { ascending: false })
+      .order("created_at", { ascending: false })
 
-  if (filters?.type) {
-    query = query.eq("type", filters.type)
+    if (filters?.type) {
+      query = query.eq("type", filters.type)
+    }
+
+    if (filters?.location) {
+      query = query.ilike("location", `%${filters.location}%`)
+    }
+
+    if (filters?.country) {
+      query = query.eq("country", filters.country)
+    }
+
+    if (filters?.minPrice) {
+      query = query.gte("price", filters.minPrice)
+    }
+
+    if (filters?.maxPrice) {
+      query = query.lte("price", filters.maxPrice)
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+      console.error("getProperties: Error fetching properties from Supabase, falling back to mock data:", error)
+      return getFilteredMockProperties()
+    }
+
+    console.log(`getProperties: Fetched ${data.length} properties from Supabase.`);
+    return data as Property[]
+  } catch (error) {
+    console.error("getProperties: Exception occurred, falling back to mock data:", error)
+    return getFilteredMockProperties()
   }
-
-  if (filters?.location) {
-    query = query.ilike("location", `%${filters.location}%`)
-  }
-
-  if (filters?.country) {
-    query = query.eq("country", filters.country)
-  }
-
-  if (filters?.minPrice) {
-    query = query.gte("price", filters.minPrice)
-  }
-
-  if (filters?.maxPrice) {
-    query = query.lte("price", filters.maxPrice)
-  }
-
-  const { data, error } = await query
-
-  if (error) {
-    console.error("getProperties: Error fetching properties from Supabase:", error)
-    return []
-  }
-  console.log(`getProperties: Fetched ${data.length} properties from Supabase.`);
-  return data as Property[]
 }
 
 export async function getProperty(id: number) {
@@ -571,8 +578,9 @@ export async function searchProperties(searchTerm: string, country?: string) {
 // Get available countries with property counts
 export async function getAvailableCountries() {
   console.log("getAvailableCountries called.");
-  if (isDevelopment) {
-    console.log("getAvailableCountries: Using mock data.");
+
+  // Helper function to get mock countries
+  const getMockCountries = () => {
     const countryCounts = mockProperties.reduce((acc: Record<string, number>, property) => {
       if (property.country) {
         acc[property.country] = (acc[property.country] || 0) + 1
@@ -585,29 +593,34 @@ export async function getAvailableCountries() {
       .sort((a, b) => b.count - a.count)
   }
 
-  if (!supabase) {
-    console.error("getAvailableCountries: Supabase client not initialized. Returning empty array.")
-    return []
+  if (isDevelopment || !supabase) {
+    console.log("getAvailableCountries: Using mock data - either in development mode or Supabase not available.");
+    return getMockCountries()
   }
 
-  const { data, error } = await supabase.from("properties").select("country").not("country", "is", null)
+  try {
+    const { data, error } = await supabase.from("properties").select("country").not("country", "is", null)
 
-  if (error) {
-    console.error("getAvailableCountries: Error fetching countries from Supabase:", error)
-    return []
-  }
-
-  // Count properties per country
-  const countryCounts = data.reduce((acc: Record<string, number>, item) => {
-    if (item.country) {
-      acc[item.country] = (acc[item.country] || 0) + 1
+    if (error) {
+      console.error("getAvailableCountries: Error fetching countries from Supabase, falling back to mock data:", error)
+      return getMockCountries()
     }
-    return acc
-  }, {})
-  console.log(`getAvailableCountries: Found ${Object.keys(countryCounts).length} unique countries.`);
-  return Object.entries(countryCounts)
-    .map(([country, count]) => ({ country, count }))
-    .sort((a, b) => b.count - a.count)
+
+    // Count properties per country
+    const countryCounts = data.reduce((acc: Record<string, number>, item) => {
+      if (item.country) {
+        acc[item.country] = (acc[item.country] || 0) + 1
+      }
+      return acc
+    }, {})
+    console.log(`getAvailableCountries: Found ${Object.keys(countryCounts).length} unique countries.`);
+    return Object.entries(countryCounts)
+      .map(([country, count]) => ({ country, count }))
+      .sort((a, b) => b.count - a.count)
+  } catch (error) {
+    console.error("getAvailableCountries: Exception occurred, falling back to mock data:", error)
+    return getMockCountries()
+  }
 }
 
 // Favorites functionality
