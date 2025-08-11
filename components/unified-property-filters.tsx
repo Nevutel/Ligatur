@@ -57,11 +57,11 @@ const INVESTMENT_GOALS = [
 ]
 
 const CRYPTOCURRENCIES = [
-  { value: "BTC", label: "Bitcoin (BTC)" },
-  { value: "ETH", label: "Ethereum (ETH)" },
-  { value: "SOL", label: "Solana (SOL)" },
-  { value: "USDC", label: "USD Coin (USDC)" },
-  { value: "USDT", label: "Tether (USDT)" },
+  { value: "BTC", label: "₿ Bitcoin (BTC)", symbol: "₿" },
+  { value: "ETH", label: "Ξ Ethereum (ETH)", symbol: "Ξ" },
+  { value: "SOL", label: "◎ Solana (SOL)", symbol: "◎" },
+  { value: "USDC", label: "$ USD Coin (USDC)", symbol: "$" },
+  { value: "USDT", label: "$ Tether (USDT)", symbol: "$" },
 ]
 
 export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyFiltersProps) {
@@ -165,7 +165,9 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
               {/* Currency */}
               <Select value={filters.currency} onValueChange={(value) => handleFilterChange('currency', value)}>
                 <SelectTrigger className="h-12">
-                  <DollarSign className="h-4 w-4 mr-2 flex-shrink-0" />
+                  <span className="mr-2 flex-shrink-0 text-sm font-medium">
+                    {CRYPTOCURRENCIES.find(c => c.value === filters.currency)?.symbol || '₿'}
+                  </span>
                   <SelectValue placeholder="Currency" className="truncate" />
                 </SelectTrigger>
                 <SelectContent>
@@ -251,7 +253,9 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
               {/* Price Range */}
               <div>
                 <Label className="text-sm font-medium mb-3 block flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-orange-500" />
+                  <span className="text-orange-500 text-sm font-medium">
+                    {CRYPTOCURRENCIES.find(c => c.value === filters.currency)?.symbol || '₿'}
+                  </span>
                   Price Range ({filters.currency})
                 </Label>
                 <Slider
@@ -263,8 +267,8 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
                   className="mb-2"
                 />
                 <div className="flex justify-between text-sm text-slate-600">
-                  <span>{filters.priceRange[0]} {filters.currency}</span>
-                  <span>{filters.priceRange[1]} {filters.currency}</span>
+                  <span>{CRYPTOCURRENCIES.find(c => c.value === filters.currency)?.symbol || '₿'}{filters.priceRange[0]}</span>
+                  <span>{CRYPTOCURRENCIES.find(c => c.value === filters.currency)?.symbol || '₿'}{filters.priceRange[1]}</span>
                 </div>
               </div>
 
@@ -364,16 +368,16 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
               {/* Nearby Amenities */}
               <div>
                 <Label className="text-sm font-medium mb-3 block">Nearby Amenities</Label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="space-y-2">
                   {NEARBY_AMENITIES.map((amenity) => (
-                    <div key={amenity} className="flex items-center space-x-3 p-2 rounded-md hover:bg-slate-50 transition-colors">
+                    <div key={amenity} className="flex items-center space-x-3 p-3 rounded-md hover:bg-slate-50 transition-colors border border-slate-200">
                       <Checkbox
                         id={`nearby-${amenity}`}
                         checked={filters.nearbyAmenities.includes(amenity)}
                         onCheckedChange={() => toggleArrayFilter('nearbyAmenities', amenity)}
                         className="flex-shrink-0"
                       />
-                      <Label htmlFor={`nearby-${amenity}`} className="text-sm cursor-pointer flex-1">{amenity}</Label>
+                      <Label htmlFor={`nearby-${amenity}`} className="text-sm cursor-pointer flex-1 whitespace-nowrap">{amenity}</Label>
                     </div>
                   ))}
                 </div>
@@ -417,23 +421,6 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
                 </div>
               </div>
 
-              {/* Investment Goals */}
-              <div>
-                <Label className="text-sm font-medium mb-3 block">Investment Goals</Label>
-                <div className="space-y-2">
-                  {INVESTMENT_GOALS.map((goal) => (
-                    <div key={goal} className="flex items-center space-x-3 p-3 rounded-md hover:bg-slate-50 transition-colors border border-slate-200">
-                      <Checkbox
-                        id={`goal-${goal}`}
-                        checked={filters.investmentGoals.includes(goal)}
-                        onCheckedChange={() => toggleArrayFilter('investmentGoals', goal)}
-                        className="flex-shrink-0"
-                      />
-                      <Label htmlFor={`goal-${goal}`} className="text-sm cursor-pointer flex-1 whitespace-nowrap">{goal}</Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
               {/* Action Buttons */}
               <div className="flex gap-4 pt-4 border-t">
