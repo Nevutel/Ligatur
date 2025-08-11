@@ -92,56 +92,66 @@ export default function ListingsPage() {
     fetchData()
   }, [filterType, selectedCountry])
 
-  const applyAdvancedFilters = (property: Property) => {
+  const applyUnifiedFilters = (property: Property) => {
+    // Location filter
+    if (unifiedFilters.location) {
+      const searchTerm = unifiedFilters.location.toLowerCase()
+      const matchesLocation =
+        property.title.toLowerCase().includes(searchTerm) ||
+        property.location.toLowerCase().includes(searchTerm) ||
+        (property.country && property.country.toLowerCase().includes(searchTerm))
+      if (!matchesLocation) return false
+    }
+
     // Price range filter
     const rates = { BTC: 43250, ETH: 2580, SOL: 98.5, USDC: 1, USDT: 1 }
     const propertyPriceInFilterCurrency =
       (property.price * (rates[property.currency as keyof typeof rates] || 1)) /
-      (rates[advancedFilters.currency as keyof typeof rates] || 1)
+      (rates[unifiedFilters.currency as keyof typeof rates] || 1)
 
     if (
-      propertyPriceInFilterCurrency < advancedFilters.priceRange[0] ||
-      propertyPriceInFilterCurrency > advancedFilters.priceRange[1]
+      propertyPriceInFilterCurrency < unifiedFilters.priceRange[0] ||
+      propertyPriceInFilterCurrency > unifiedFilters.priceRange[1]
     ) {
       return false
     }
 
     // Property type filter
-    if (advancedFilters.propertyTypes.length > 0) {
+    if (unifiedFilters.propertyTypes.length > 0) {
       // This would need property type data in the database
       // For now, we'll skip this filter
     }
 
     // Bedrooms filter
-    if (advancedFilters.bedrooms !== "any") {
-      const minBedrooms = Number.parseInt(advancedFilters.bedrooms)
+    if (unifiedFilters.bedrooms !== "any") {
+      const minBedrooms = Number.parseInt(unifiedFilters.bedrooms)
       if (property.bedrooms < minBedrooms) return false
     }
 
     // Bathrooms filter
-    if (advancedFilters.bathrooms !== "any") {
-      const minBathrooms = Number.parseFloat(advancedFilters.bathrooms)
+    if (unifiedFilters.bathrooms !== "any") {
+      const minBathrooms = Number.parseFloat(unifiedFilters.bathrooms)
       if (property.bathrooms < minBathrooms) return false
     }
 
     // Square footage filter
-    if (property.sqft < advancedFilters.sqftRange[0] || property.sqft > advancedFilters.sqftRange[1]) {
+    if (property.sqft < unifiedFilters.sqftRange[0] || property.sqft > unifiedFilters.sqftRange[1]) {
       return false
     }
 
     // Year built filter
     if (property.year_built) {
       if (
-        property.year_built < advancedFilters.yearBuiltRange[0] ||
-        property.year_built > advancedFilters.yearBuiltRange[1]
+        property.year_built < unifiedFilters.yearBuiltRange[0] ||
+        property.year_built > unifiedFilters.yearBuiltRange[1]
       ) {
         return false
       }
     }
 
     // Amenities filter
-    if (advancedFilters.amenities.length > 0) {
-      const hasAllAmenities = advancedFilters.amenities.every((amenity) =>
+    if (unifiedFilters.amenities.length > 0) {
+      const hasAllAmenities = unifiedFilters.amenities.every((amenity) =>
         property.features?.some((feature) => feature.toLowerCase().includes(amenity.toLowerCase())),
       )
       if (!hasAllAmenities) return false
