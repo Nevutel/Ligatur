@@ -45,16 +45,22 @@ export default function ListingsPage() {
   const [showCountrySearch, setShowCountrySearch] = useState(false)
   const [showComparison, setShowComparison] = useState(false)
 
-  // Advanced filters
-  const [advancedFilters, setAdvancedFilters] = useState<SearchFilters>({
+  // Unified filters
+  const [unifiedFilters, setUnifiedFilters] = useState<UnifiedFilters>({
+    location: "",
     priceRange: [0, 10],
     currency: "BTC",
     propertyTypes: [],
     bedrooms: "any",
     bathrooms: "any",
     sqftRange: [0, 5000],
+    walkScore: [0, 100],
+    transitScore: [0, 100],
+    safetyScore: [0, 100],
+    schoolRating: [0, 10],
+    nearbyAmenities: [],
     amenities: [],
-    listingType: "all",
+    investmentGoals: [],
     yearBuiltRange: [1900, 2024],
     availableFrom: "",
   })
