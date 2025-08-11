@@ -12,9 +12,8 @@ import { getProperties, getAvailableCountries, type Property } from "@/lib/datab
 import { Header } from "@/components/header"
 import { ImageSlideshow } from "@/components/image-slideshow"
 import { CountrySearch } from "@/components/country-search"
-import { AdvancedSearchFilters } from "@/components/advanced-search-filters"
 import { PropertyComparisonTool } from "@/components/property-comparison-tool"
-import { AdvancedPropertySearch } from "@/components/advanced-property-search"
+import { UnifiedPropertyFilters } from "@/components/unified-property-filters"
 
 interface SearchFilters {
   priceRange: [number, number]
