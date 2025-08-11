@@ -207,24 +207,29 @@ export default function ListingsPage() {
   ]
 
   // Helper function to get a random stock photo based on property ID
-  const getStockPhoto = (propertyId: string) => {
-    const index = parseInt(propertyId.slice(-1), 10) % stockPhotos.length
-    return stockPhotos[index] || stockPhotos[0]
+  const getStockPhoto = (propertyId: string | number) => {
+    const id = propertyId.toString()
+    const index = parseInt(id.slice(-1), 10) || 0
+    const safeIndex = isNaN(index) ? 0 : index % stockPhotos.length
+    return stockPhotos[safeIndex] || stockPhotos[0]
   }
 
   // Helper function to get display image
   const getDisplayImage = (property: Property) => {
-    if (!property.images || property.images.length === 0) {
-      return getStockPhoto(property.id)
+    // Always try to get a valid image first
+    if (property.images && property.images.length > 0) {
+      const firstImage = property.images[0]
+      // Check if it's a valid URL (not blob or empty)
+      if (firstImage &&
+          !firstImage.startsWith("blob:") &&
+          !firstImage.includes("blob.vercel.app") &&
+          firstImage.startsWith("http")) {
+        return firstImage
+      }
     }
 
-    const firstImage = property.images[0]
-    // Check if it's a blob URL or invalid, use stock photo instead
-    if (!firstImage || firstImage.startsWith("blob:") || firstImage.includes("blob.vercel.app")) {
-      return getStockPhoto(property.id)
-    }
-
-    return firstImage
+    // If no valid images, always return a stock photo
+    return getStockPhoto(property.id)
   }
 
   // Helper function to get slideshow images
