@@ -184,19 +184,36 @@ export default function ListingsPage() {
     }
   })
 
+  // Stock photo placeholders for properties
+  const stockPhotos = [
+    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Modern luxury home
+    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Contemporary house
+    "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Modern house exterior
+    "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Beautiful home exterior
+    "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Modern apartment
+    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Beautiful modern house
+    "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Apartment building
+    "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Townhouse
+    "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Urban property
+    "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Suburban home
+  ]
+
+  // Helper function to get a random stock photo based on property ID
+  const getStockPhoto = (propertyId: string) => {
+    const index = parseInt(propertyId.slice(-1), 10) % stockPhotos.length
+    return stockPhotos[index] || stockPhotos[0]
+  }
+
   // Helper function to get display image
   const getDisplayImage = (property: Property) => {
-    const defaultImage =
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-
     if (!property.images || property.images.length === 0) {
-      return defaultImage
+      return getStockPhoto(property.id)
     }
 
     const firstImage = property.images[0]
-    // Check if it's a blob URL or invalid, use default instead
+    // Check if it's a blob URL or invalid, use stock photo instead
     if (!firstImage || firstImage.startsWith("blob:") || firstImage.includes("blob.vercel.app")) {
-      return defaultImage
+      return getStockPhoto(property.id)
     }
 
     return firstImage
@@ -204,22 +221,21 @@ export default function ListingsPage() {
 
   // Helper function to get slideshow images
   const getSlideshowImages = (property: Property) => {
-    const defaultImage =
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-
     if (!property.images || property.images.length === 0) {
-      return [defaultImage]
+      return [getStockPhoto(property.id)]
     }
 
-    // Filter out blob URLs and invalid images, replace with default
-    const validImages = property.images.map((img) => {
+    // Filter out blob URLs and invalid images, replace with stock photos
+    const validImages = property.images.map((img, index) => {
       if (!img || img.startsWith("blob:") || img.includes("blob.vercel.app")) {
-        return defaultImage
+        // Use different stock photos for multiple images
+        const stockIndex = (parseInt(property.id.slice(-1), 10) + index) % stockPhotos.length
+        return stockPhotos[stockIndex] || stockPhotos[0]
       }
       return img
     })
 
-    return validImages.length > 0 ? validImages : [defaultImage]
+    return validImages.length > 0 ? validImages : [getStockPhoto(property.id)]
   }
 
   const openSlideshow = (property: Property) => {
