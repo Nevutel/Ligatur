@@ -221,9 +221,9 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
               {/* Nearby Amenities */}
               <div>
                 <Label className="text-sm font-medium mb-3 block">Nearby Amenities</Label>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {NEARBY_AMENITIES.map((amenity) => (
-                    <div key={amenity} className="flex items-center space-x-2">
+                    <div key={amenity} className="flex items-center space-x-3 p-2 rounded-md hover:bg-slate-50 transition-colors">
                       <Checkbox
                         id={amenity}
                         checked={filters.nearbyAmenities.includes(amenity)}
@@ -234,8 +234,9 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
                             handleFilterChange('nearbyAmenities', filters.nearbyAmenities.filter(a => a !== amenity))
                           }
                         }}
+                        className="flex-shrink-0"
                       />
-                      <Label htmlFor={amenity} className="text-sm">{amenity}</Label>
+                      <Label htmlFor={amenity} className="text-sm cursor-pointer flex-1">{amenity}</Label>
                     </div>
                   ))}
                 </div>

@@ -181,7 +181,7 @@ export default function PropertyPage({ params }: { params: Promise<{ id: string 
                   <span className="text-base md:text-lg break-words">{property.location}</span>
                 </div>
                 <div className="text-2xl md:text-3xl font-bold text-orange-600 break-words">
-                  {property.price} {property.currency}
+                  {property.currency === 'BTC' ? '₿' : property.currency === 'ETH' ? 'Ξ' : property.currency === 'SOL' ? '◎' : '$'}{property.price}
                   {property.type === "rent" && "/month"}
                 </div>
               </div>

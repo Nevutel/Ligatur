@@ -12,19 +12,24 @@ import { getProperties, getAvailableCountries, type Property } from "@/lib/datab
 import { Header } from "@/components/header"
 import { ImageSlideshow } from "@/components/image-slideshow"
 import { CountrySearch } from "@/components/country-search"
-import { AdvancedSearchFilters } from "@/components/advanced-search-filters"
 import { PropertyComparisonTool } from "@/components/property-comparison-tool"
-import { AdvancedPropertySearch } from "@/components/advanced-property-search"
+import { UnifiedPropertyFilters } from "@/components/unified-property-filters"
 
-interface SearchFilters {
+interface UnifiedFilters {
+  location: string
   priceRange: [number, number]
   currency: string
   propertyTypes: string[]
   bedrooms: string
   bathrooms: string
   sqftRange: [number, number]
+  walkScore: [number, number]
+  transitScore: [number, number]
+  safetyScore: [number, number]
+  schoolRating: [number, number]
+  nearbyAmenities: string[]
   amenities: string[]
-  listingType: string
+  investmentGoals: string[]
   yearBuiltRange: [number, number]
   availableFrom: string
 }
@@ -40,16 +45,22 @@ export default function ListingsPage() {
   const [showCountrySearch, setShowCountrySearch] = useState(false)
   const [showComparison, setShowComparison] = useState(false)
 
-  // Advanced filters
-  const [advancedFilters, setAdvancedFilters] = useState<SearchFilters>({
+  // Unified filters
+  const [unifiedFilters, setUnifiedFilters] = useState<UnifiedFilters>({
+    location: "",
     priceRange: [0, 10],
     currency: "BTC",
     propertyTypes: [],
     bedrooms: "any",
     bathrooms: "any",
     sqftRange: [0, 5000],
+    walkScore: [0, 100],
+    transitScore: [0, 100],
+    safetyScore: [0, 100],
+    schoolRating: [0, 10],
+    nearbyAmenities: [],
     amenities: [],
-    listingType: "all",
+    investmentGoals: [],
     yearBuiltRange: [1900, 2024],
     availableFrom: "",
   })
@@ -81,56 +92,66 @@ export default function ListingsPage() {
     fetchData()
   }, [filterType, selectedCountry])
 
-  const applyAdvancedFilters = (property: Property) => {
+  const applyUnifiedFilters = (property: Property) => {
+    // Location filter
+    if (unifiedFilters.location) {
+      const searchTerm = unifiedFilters.location.toLowerCase()
+      const matchesLocation =
+        property.title.toLowerCase().includes(searchTerm) ||
+        property.location.toLowerCase().includes(searchTerm) ||
+        (property.country && property.country.toLowerCase().includes(searchTerm))
+      if (!matchesLocation) return false
+    }
+
     // Price range filter
     const rates = { BTC: 43250, ETH: 2580, SOL: 98.5, USDC: 1, USDT: 1 }
     const propertyPriceInFilterCurrency =
       (property.price * (rates[property.currency as keyof typeof rates] || 1)) /
-      (rates[advancedFilters.currency as keyof typeof rates] || 1)
+      (rates[unifiedFilters.currency as keyof typeof rates] || 1)
 
     if (
-      propertyPriceInFilterCurrency < advancedFilters.priceRange[0] ||
-      propertyPriceInFilterCurrency > advancedFilters.priceRange[1]
+      propertyPriceInFilterCurrency < unifiedFilters.priceRange[0] ||
+      propertyPriceInFilterCurrency > unifiedFilters.priceRange[1]
     ) {
       return false
     }
 
     // Property type filter
-    if (advancedFilters.propertyTypes.length > 0) {
+    if (unifiedFilters.propertyTypes.length > 0) {
       // This would need property type data in the database
       // For now, we'll skip this filter
     }
 
     // Bedrooms filter
-    if (advancedFilters.bedrooms !== "any") {
-      const minBedrooms = Number.parseInt(advancedFilters.bedrooms)
+    if (unifiedFilters.bedrooms !== "any") {
+      const minBedrooms = Number.parseInt(unifiedFilters.bedrooms)
       if (property.bedrooms < minBedrooms) return false
     }
 
     // Bathrooms filter
-    if (advancedFilters.bathrooms !== "any") {
-      const minBathrooms = Number.parseFloat(advancedFilters.bathrooms)
+    if (unifiedFilters.bathrooms !== "any") {
+      const minBathrooms = Number.parseFloat(unifiedFilters.bathrooms)
       if (property.bathrooms < minBathrooms) return false
     }
 
     // Square footage filter
-    if (property.sqft < advancedFilters.sqftRange[0] || property.sqft > advancedFilters.sqftRange[1]) {
+    if (property.sqft < unifiedFilters.sqftRange[0] || property.sqft > unifiedFilters.sqftRange[1]) {
       return false
     }
 
     // Year built filter
     if (property.year_built) {
       if (
-        property.year_built < advancedFilters.yearBuiltRange[0] ||
-        property.year_built > advancedFilters.yearBuiltRange[1]
+        property.year_built < unifiedFilters.yearBuiltRange[0] ||
+        property.year_built > unifiedFilters.yearBuiltRange[1]
       ) {
         return false
       }
     }
 
     // Amenities filter
-    if (advancedFilters.amenities.length > 0) {
-      const hasAllAmenities = advancedFilters.amenities.every((amenity) =>
+    if (unifiedFilters.amenities.length > 0) {
+      const hasAllAmenities = unifiedFilters.amenities.every((amenity) =>
         property.features?.some((feature) => feature.toLowerCase().includes(amenity.toLowerCase())),
       )
       if (!hasAllAmenities) return false
@@ -145,7 +166,7 @@ export default function ListingsPage() {
       property.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (property.country && property.country.toLowerCase().includes(searchTerm.toLowerCase()))
 
-    return matchesSearch && applyAdvancedFilters(property)
+    return matchesSearch && applyUnifiedFilters(property)
   })
 
   const sortedProperties = [...filteredProperties].sort((a, b) => {
@@ -158,24 +179,49 @@ export default function ListingsPage() {
         return b.price - a.price
       case "newest":
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      case "sqft-low":
+        return a.sqft - b.sqft
+      case "sqft-high":
+        return b.sqft - a.sqft
+      case "year-old":
+        return (a.year_built || 0) - (b.year_built || 0)
+      case "year-new":
+        return (b.year_built || 0) - (a.year_built || 0)
       default:
         return 0
     }
   })
 
+  // Stock photo placeholders for properties
+  const stockPhotos = [
+    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Modern luxury home
+    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Contemporary house
+    "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Modern house exterior
+    "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Beautiful home exterior
+    "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Modern apartment
+    "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Beautiful modern house
+    "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Apartment building
+    "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Townhouse
+    "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Urban property
+    "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // Suburban home
+  ]
+
+  // Helper function to get a random stock photo based on property ID
+  const getStockPhoto = (propertyId: string) => {
+    const index = parseInt(propertyId.slice(-1), 10) % stockPhotos.length
+    return stockPhotos[index] || stockPhotos[0]
+  }
+
   // Helper function to get display image
   const getDisplayImage = (property: Property) => {
-    const defaultImage =
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-
     if (!property.images || property.images.length === 0) {
-      return defaultImage
+      return getStockPhoto(property.id)
     }
 
     const firstImage = property.images[0]
-    // Check if it's a blob URL or invalid, use default instead
+    // Check if it's a blob URL or invalid, use stock photo instead
     if (!firstImage || firstImage.startsWith("blob:") || firstImage.includes("blob.vercel.app")) {
-      return defaultImage
+      return getStockPhoto(property.id)
     }
 
     return firstImage
@@ -183,22 +229,21 @@ export default function ListingsPage() {
 
   // Helper function to get slideshow images
   const getSlideshowImages = (property: Property) => {
-    const defaultImage =
-      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-
     if (!property.images || property.images.length === 0) {
-      return [defaultImage]
+      return [getStockPhoto(property.id)]
     }
 
-    // Filter out blob URLs and invalid images, replace with default
-    const validImages = property.images.map((img) => {
+    // Filter out blob URLs and invalid images, replace with stock photos
+    const validImages = property.images.map((img, index) => {
       if (!img || img.startsWith("blob:") || img.includes("blob.vercel.app")) {
-        return defaultImage
+        // Use different stock photos for multiple images
+        const stockIndex = (parseInt(property.id.slice(-1), 10) + index) % stockPhotos.length
+        return stockPhotos[stockIndex] || stockPhotos[0]
       }
       return img
     })
 
-    return validImages.length > 0 ? validImages : [defaultImage]
+    return validImages.length > 0 ? validImages : [getStockPhoto(property.id)]
   }
 
   const openSlideshow = (property: Property) => {
@@ -220,24 +265,12 @@ export default function ListingsPage() {
     setSelectedCountry("")
   }
 
-  const handleApplyFilters = () => {
-    // Filters are applied automatically through the filteredProperties computation
-    console.log("Filters applied:", advancedFilters)
-  }
-
-  const handleClearFilters = () => {
-    setAdvancedFilters({
-      priceRange: [0, 10],
-      currency: "BTC",
-      propertyTypes: [],
-      bedrooms: "any",
-      bathrooms: "any",
-      sqftRange: [0, 5000],
-      amenities: [],
-      listingType: "all",
-      yearBuiltRange: [1900, 2024],
-      availableFrom: "",
-    })
+  const handleUnifiedSearch = (filters: UnifiedFilters) => {
+    setUnifiedFilters(filters)
+    // Also update the search term if location is provided in unified filters
+    if (filters.location !== unifiedFilters.location) {
+      setSearchTerm(filters.location)
+    }
   }
 
   if (loading) {
@@ -262,24 +295,11 @@ export default function ListingsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar Filters */}
           <div className="lg:col-span-1 space-y-4">
-            {/* Enhanced Search */}
-            <AdvancedPropertySearch
-              onSearch={(filters) => {
-                console.log('Advanced search:', filters)
-                // This would trigger property filtering in a real implementation
-              }}
-            />
+            {/* Unified Property Filters */}
+            <UnifiedPropertyFilters onSearch={handleUnifiedSearch} />
 
             {/* Country Search */}
             <CountrySearch onCountrySelect={handleCountrySelect} selectedCountry={selectedCountry} />
-
-            {/* Advanced Filters */}
-            <AdvancedSearchFilters
-              filters={advancedFilters}
-              onFiltersChange={setAdvancedFilters}
-              onApplyFilters={handleApplyFilters}
-              onClearFilters={handleClearFilters}
-            />
 
             {/* Available Countries with Counts */}
             {availableCountries.length > 0 && (
@@ -349,7 +369,11 @@ export default function ListingsPage() {
                     <SelectItem value="featured">Featured</SelectItem>
                     <SelectItem value="price-low">Price: Low to High</SelectItem>
                     <SelectItem value="price-high">Price: High to Low</SelectItem>
-                    <SelectItem value="newest">Newest First</SelectItem>
+                    <SelectItem value="sqft-low">Square Feet: Small to Large</SelectItem>
+                    <SelectItem value="sqft-high">Square Feet: Large to Small</SelectItem>
+                    <SelectItem value="year-new">Year: Newest First</SelectItem>
+                    <SelectItem value="year-old">Year: Oldest First</SelectItem>
+                    <SelectItem value="newest">Recently Listed</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -423,10 +447,9 @@ export default function ListingsPage() {
                           alt={property.title}
                           className="w-full h-48 md:h-64 object-cover hover:opacity-90 transition-opacity"
                           onError={(e) => {
-                            // Fallback if image fails to load
+                            // Fallback if image fails to load - use stock photo
                             const target = e.target as HTMLImageElement
-                            target.src =
-                              "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                            target.src = getStockPhoto(property.id)
                           }}
                         />
                         {property.images && property.images.length > 1 && (
@@ -476,7 +499,7 @@ export default function ListingsPage() {
                         </div>
                       </div>
                       <div className="text-lg md:text-xl font-bold text-orange-600 break-words">
-                        {property.price} {property.currency}
+                        {property.currency === 'BTC' ? '₿' : property.currency === 'ETH' ? 'Ξ' : property.currency === 'SOL' ? '◎' : '$'}{property.price}
                         {property.type === "rent" && "/month"}
                       </div>
                     </CardContent>

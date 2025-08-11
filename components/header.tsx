@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { User, LogOut, Plus, Menu, X, Home } from "lucide-react"
+import { User, LogOut, Plus, Menu, X, Home, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -81,6 +81,12 @@ export function Header() {
                       <Link href="/create" className="flex items-center gap-2">
                         <Plus className="h-4 w-4" />
                         List Property
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/maps-setup" className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        Maps Setup
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
