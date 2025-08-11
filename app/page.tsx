@@ -172,7 +172,7 @@ export default function HomePage() {
             <Button size="lg" className="text-lg px-8 py-4 rounded-2xl bg-white text-blue-600 hover:bg-slate-100" asChild>
               <Link href="/listings">Explore Properties</Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-4 rounded-2xl border-white text-white hover:bg-white hover:text-blue-600" asChild>
+            <Button size="lg" variant="outline" className="text-lg px-8 py-4 rounded-2xl border-2 border-white text-white hover:bg-white hover:text-blue-600 bg-transparent" asChild>
               <Link href="/auth/signup">Create Account</Link>
             </Button>
           </div>
