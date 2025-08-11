@@ -166,7 +166,7 @@ export default function ListingsPage() {
       property.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (property.country && property.country.toLowerCase().includes(searchTerm.toLowerCase()))
 
-    return matchesSearch && applyAdvancedFilters(property)
+    return matchesSearch && applyUnifiedFilters(property)
   })
 
   const sortedProperties = [...filteredProperties].sort((a, b) => {
