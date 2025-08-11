@@ -87,8 +87,8 @@ export default function HomePage() {
             <div className="relative">
               <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-6 border border-white/50 shadow-2xl transform hover:scale-105 transition-transform duration-500">
                 <img
-                  src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Beautiful modern property"
+                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  alt="Luxury modern property"
                   className="w-full aspect-[4/3] object-cover rounded-2xl"
                 />
                 
