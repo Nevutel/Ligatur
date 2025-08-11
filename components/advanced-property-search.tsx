@@ -221,7 +221,7 @@ export function AdvancedPropertySearch({ onSearch, className }: AdvancedProperty
               {/* Nearby Amenities */}
               <div>
                 <Label className="text-sm font-medium mb-3 block">Nearby Amenities</Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {NEARBY_AMENITIES.map((amenity) => (
                     <div key={amenity} className="flex items-center space-x-2">
                       <Checkbox
