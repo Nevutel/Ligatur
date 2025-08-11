@@ -179,6 +179,14 @@ export default function ListingsPage() {
         return b.price - a.price
       case "newest":
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      case "sqft-low":
+        return a.sqft - b.sqft
+      case "sqft-high":
+        return b.sqft - a.sqft
+      case "year-old":
+        return (a.year_built || 0) - (b.year_built || 0)
+      case "year-new":
+        return (b.year_built || 0) - (a.year_built || 0)
       default:
         return 0
     }
