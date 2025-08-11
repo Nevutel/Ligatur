@@ -77,7 +77,7 @@ export default function HomePage() {
                   <div className="text-sm text-slate-600">Countries</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600">$2.8B</div>
+                  <div className="text-3xl font-bold text-blue-600">₿2.8K</div>
                   <div className="text-sm text-slate-600">In Transactions</div>
                 </div>
               </div>
