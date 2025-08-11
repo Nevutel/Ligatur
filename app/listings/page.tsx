@@ -240,9 +240,14 @@ export default function ListingsPage() {
 
     // Filter out blob URLs and invalid images, replace with stock photos
     const validImages = property.images.map((img, index) => {
-      if (!img || img.startsWith("blob:") || img.includes("blob.vercel.app")) {
+      if (!img ||
+          img.startsWith("blob:") ||
+          img.includes("blob.vercel.app") ||
+          !img.startsWith("http")) {
         // Use different stock photos for multiple images
-        const stockIndex = (parseInt(property.id.slice(-1), 10) + index) % stockPhotos.length
+        const id = property.id.toString()
+        const baseIndex = parseInt(id.slice(-1), 10) || 0
+        const stockIndex = (baseIndex + index) % stockPhotos.length
         return stockPhotos[stockIndex] || stockPhotos[0]
       }
       return img
