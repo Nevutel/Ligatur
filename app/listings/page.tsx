@@ -241,24 +241,12 @@ export default function ListingsPage() {
     setSelectedCountry("")
   }
 
-  const handleApplyFilters = () => {
-    // Filters are applied automatically through the filteredProperties computation
-    console.log("Filters applied:", advancedFilters)
-  }
-
-  const handleClearFilters = () => {
-    setAdvancedFilters({
-      priceRange: [0, 10],
-      currency: "BTC",
-      propertyTypes: [],
-      bedrooms: "any",
-      bathrooms: "any",
-      sqftRange: [0, 5000],
-      amenities: [],
-      listingType: "all",
-      yearBuiltRange: [1900, 2024],
-      availableFrom: "",
-    })
+  const handleUnifiedSearch = (filters: UnifiedFilters) => {
+    setUnifiedFilters(filters)
+    // Also update the search term if location is provided in unified filters
+    if (filters.location !== unifiedFilters.location) {
+      setSearchTerm(filters.location)
+    }
   }
 
   if (loading) {
