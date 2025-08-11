@@ -366,7 +366,34 @@ export async function getProperties(filters?: {
     }
 
     console.log(`getProperties: Fetched ${data.length} properties from Supabase.`);
-    return data as Property[]
+
+    // Ensure all properties have images (add stock photos if needed)
+    const stockPhotos = [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    ]
+
+    const propertiesWithImages = (data as Property[]).map((property) => {
+      if (!property.images || property.images.length === 0 ||
+          property.images.some(img => !img || img.includes('placeholder') || img.startsWith('blob:'))) {
+        const stockIndex = property.id % stockPhotos.length
+        return {
+          ...property,
+          images: [stockPhotos[stockIndex] || stockPhotos[0]]
+        }
+      }
+      return property
+    })
+
+    return propertiesWithImages
   } catch (error) {
     console.error("getProperties: Exception occurred, falling back to mock data:", error)
     return getFilteredMockProperties()
