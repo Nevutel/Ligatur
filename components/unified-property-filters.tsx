@@ -161,12 +161,12 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
             </div>
 
             {/* Quick Filters Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Currency */}
               <Select value={filters.currency} onValueChange={(value) => handleFilterChange('currency', value)}>
                 <SelectTrigger className="h-12">
-                  <DollarSign className="h-4 w-4 mr-2" />
-                  <SelectValue />
+                  <DollarSign className="h-4 w-4 mr-2 flex-shrink-0" />
+                  <SelectValue placeholder="Currency" className="truncate" />
                 </SelectTrigger>
                 <SelectContent>
                   {CRYPTOCURRENCIES.map((crypto) => (
@@ -174,38 +174,6 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
                       {crypto.label}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
-
-              {/* Bedrooms */}
-              <Select value={filters.bedrooms} onValueChange={(value) => handleFilterChange('bedrooms', value)}>
-                <SelectTrigger className="h-12">
-                  <SelectValue placeholder="Bedrooms" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="any">Any Bedrooms</SelectItem>
-                  <SelectItem value="0">Studio</SelectItem>
-                  <SelectItem value="1">1+</SelectItem>
-                  <SelectItem value="2">2+</SelectItem>
-                  <SelectItem value="3">3+</SelectItem>
-                  <SelectItem value="4">4+</SelectItem>
-                  <SelectItem value="5">5+</SelectItem>
-                </SelectContent>
-              </Select>
-
-              {/* Bathrooms */}
-              <Select value={filters.bathrooms} onValueChange={(value) => handleFilterChange('bathrooms', value)}>
-                <SelectTrigger className="h-12">
-                  <SelectValue placeholder="Bathrooms" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="any">Any Bathrooms</SelectItem>
-                  <SelectItem value="1">1+</SelectItem>
-                  <SelectItem value="1.5">1.5+</SelectItem>
-                  <SelectItem value="2">2+</SelectItem>
-                  <SelectItem value="2.5">2.5+</SelectItem>
-                  <SelectItem value="3">3+</SelectItem>
-                  <SelectItem value="4">4+</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -217,6 +185,41 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
                 className="h-12"
                 placeholder="Available from"
               />
+            </div>
+
+            {/* Bedrooms & Bathrooms Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Bedrooms */}
+              <Select value={filters.bedrooms} onValueChange={(value) => handleFilterChange('bedrooms', value)}>
+                <SelectTrigger className="h-12">
+                  <SelectValue placeholder="Any Bedrooms" className="truncate" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="any">Any Bedrooms</SelectItem>
+                  <SelectItem value="0">Studio</SelectItem>
+                  <SelectItem value="1">1+ Bedrooms</SelectItem>
+                  <SelectItem value="2">2+ Bedrooms</SelectItem>
+                  <SelectItem value="3">3+ Bedrooms</SelectItem>
+                  <SelectItem value="4">4+ Bedrooms</SelectItem>
+                  <SelectItem value="5">5+ Bedrooms</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* Bathrooms */}
+              <Select value={filters.bathrooms} onValueChange={(value) => handleFilterChange('bathrooms', value)}>
+                <SelectTrigger className="h-12">
+                  <SelectValue placeholder="Any Bathrooms" className="truncate" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="any">Any Bathrooms</SelectItem>
+                  <SelectItem value="1">1+ Bathrooms</SelectItem>
+                  <SelectItem value="1.5">1.5+ Bathrooms</SelectItem>
+                  <SelectItem value="2">2+ Bathrooms</SelectItem>
+                  <SelectItem value="2.5">2.5+ Bathrooms</SelectItem>
+                  <SelectItem value="3">3+ Bathrooms</SelectItem>
+                  <SelectItem value="4">4+ Bathrooms</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Action Buttons */}
@@ -271,16 +274,16 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
                   <Home className="h-4 w-4 text-orange-500" />
                   Property Types
                 </Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="space-y-2">
                   {PROPERTY_TYPES.map((type) => (
-                    <div key={type} className="flex items-center space-x-3 p-2 rounded-md hover:bg-slate-50 transition-colors border border-slate-200">
+                    <div key={type} className="flex items-center space-x-3 p-3 rounded-md hover:bg-slate-50 transition-colors border border-slate-200">
                       <Checkbox
                         id={`type-${type}`}
                         checked={filters.propertyTypes.includes(type)}
                         onCheckedChange={() => toggleArrayFilter('propertyTypes', type)}
                         className="flex-shrink-0"
                       />
-                      <Label htmlFor={`type-${type}`} className="text-sm cursor-pointer flex-1">{type}</Label>
+                      <Label htmlFor={`type-${type}`} className="text-sm cursor-pointer flex-1 whitespace-nowrap">{type}</Label>
                     </div>
                   ))}
                 </div>
@@ -417,16 +420,16 @@ export function UnifiedPropertyFilters({ onSearch, className }: UnifiedPropertyF
               {/* Investment Goals */}
               <div>
                 <Label className="text-sm font-medium mb-3 block">Investment Goals</Label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="space-y-2">
                   {INVESTMENT_GOALS.map((goal) => (
-                    <div key={goal} className="flex items-center space-x-3 p-2 rounded-md hover:bg-slate-50 transition-colors">
+                    <div key={goal} className="flex items-center space-x-3 p-3 rounded-md hover:bg-slate-50 transition-colors border border-slate-200">
                       <Checkbox
                         id={`goal-${goal}`}
                         checked={filters.investmentGoals.includes(goal)}
                         onCheckedChange={() => toggleArrayFilter('investmentGoals', goal)}
                         className="flex-shrink-0"
                       />
-                      <Label htmlFor={`goal-${goal}`} className="text-sm cursor-pointer flex-1">{goal}</Label>
+                      <Label htmlFor={`goal-${goal}`} className="text-sm cursor-pointer flex-1 whitespace-nowrap">{goal}</Label>
                     </div>
                   ))}
                 </div>
