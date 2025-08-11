@@ -499,7 +499,7 @@ export default function ListingsPage() {
                         </div>
                       </div>
                       <div className="text-lg md:text-xl font-bold text-orange-600 break-words">
-                        {property.price} {property.currency}
+                        {property.currency === 'BTC' ? '₿' : property.currency === 'ETH' ? 'Ξ' : property.currency === 'SOL' ? '◎' : '$'}{property.price}
                         {property.type === "rent" && "/month"}
                       </div>
                     </CardContent>
