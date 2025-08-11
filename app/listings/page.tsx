@@ -460,7 +460,10 @@ export default function ListingsPage() {
                           onError={(e) => {
                             // Fallback if image fails to load - use stock photo
                             const target = e.target as HTMLImageElement
-                            target.src = getStockPhoto(property.id)
+                            const fallbackImage = getStockPhoto(property.id)
+                            if (target.src !== fallbackImage) {
+                              target.src = fallbackImage
+                            }
                           }}
                         />
                         {property.images && property.images.length > 1 && (
