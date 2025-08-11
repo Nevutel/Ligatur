@@ -369,7 +369,11 @@ export default function ListingsPage() {
                     <SelectItem value="featured">Featured</SelectItem>
                     <SelectItem value="price-low">Price: Low to High</SelectItem>
                     <SelectItem value="price-high">Price: High to Low</SelectItem>
-                    <SelectItem value="newest">Newest First</SelectItem>
+                    <SelectItem value="sqft-low">Size: Small to Large</SelectItem>
+                    <SelectItem value="sqft-high">Size: Large to Small</SelectItem>
+                    <SelectItem value="year-new">Year: Newest First</SelectItem>
+                    <SelectItem value="year-old">Year: Oldest First</SelectItem>
+                    <SelectItem value="newest">Recently Listed</SelectItem>
                   </SelectContent>
                 </Select>
 
