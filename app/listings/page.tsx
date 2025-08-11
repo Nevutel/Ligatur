@@ -435,10 +435,9 @@ export default function ListingsPage() {
                           alt={property.title}
                           className="w-full h-48 md:h-64 object-cover hover:opacity-90 transition-opacity"
                           onError={(e) => {
-                            // Fallback if image fails to load
+                            // Fallback if image fails to load - use stock photo
                             const target = e.target as HTMLImageElement
-                            target.src =
-                              "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                            target.src = getStockPhoto(property.id)
                           }}
                         />
                         {property.images && property.images.length > 1 && (
