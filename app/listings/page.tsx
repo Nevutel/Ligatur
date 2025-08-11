@@ -15,15 +15,21 @@ import { CountrySearch } from "@/components/country-search"
 import { PropertyComparisonTool } from "@/components/property-comparison-tool"
 import { UnifiedPropertyFilters } from "@/components/unified-property-filters"
 
-interface SearchFilters {
+interface UnifiedFilters {
+  location: string
   priceRange: [number, number]
   currency: string
   propertyTypes: string[]
   bedrooms: string
   bathrooms: string
   sqftRange: [number, number]
+  walkScore: [number, number]
+  transitScore: [number, number]
+  safetyScore: [number, number]
+  schoolRating: [number, number]
+  nearbyAmenities: string[]
   amenities: string[]
-  listingType: string
+  investmentGoals: string[]
   yearBuiltRange: [number, number]
   availableFrom: string
 }
