@@ -83,6 +83,12 @@ export function Header() {
                         List Property
                       </Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/maps-setup" className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        Maps Setup
+                      </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2 text-red-500 hover:text-red-600">
                       <LogOut className="h-4 w-4" />
