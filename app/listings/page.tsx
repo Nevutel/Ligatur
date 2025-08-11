@@ -271,24 +271,11 @@ export default function ListingsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar Filters */}
           <div className="lg:col-span-1 space-y-4">
-            {/* Enhanced Search */}
-            <AdvancedPropertySearch
-              onSearch={(filters) => {
-                console.log('Advanced search:', filters)
-                // This would trigger property filtering in a real implementation
-              }}
-            />
+            {/* Unified Property Filters */}
+            <UnifiedPropertyFilters onSearch={handleUnifiedSearch} />
 
             {/* Country Search */}
             <CountrySearch onCountrySelect={handleCountrySelect} selectedCountry={selectedCountry} />
-
-            {/* Advanced Filters */}
-            <AdvancedSearchFilters
-              filters={advancedFilters}
-              onFiltersChange={setAdvancedFilters}
-              onApplyFilters={handleApplyFilters}
-              onClearFilters={handleClearFilters}
-            />
 
             {/* Available Countries with Counts */}
             {availableCountries.length > 0 && (
