@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { User, LogOut, Plus, Menu, X, Home, MapPin } from "lucide-react"
+import { LigaturLogo } from "@/components/ligatur-logo"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
