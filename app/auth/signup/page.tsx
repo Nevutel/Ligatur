@@ -100,7 +100,7 @@ export default function SignUpPage() {
           <Card>
             <CardHeader className="text-center">
               <CardTitle className="text-2xl">Create Account</CardTitle>
-              <p className="text-slate-600">Join Ligatur to list and manage properties</p>
+              <p className="text-slate-600">Join Ligatur to buy, rent, and sell properties</p>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
