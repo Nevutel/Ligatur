@@ -8,6 +8,34 @@
   }
 }
 
+/* Animated gradient for Ligatur logo */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.logo-gradient-flow {
+  background: linear-gradient(
+    -45deg,
+    #2563eb,   /* blue-600 */
+    #7c3aed,   /* purple-600 */
+    #f97316,   /* orange-500 */
+    #2563eb    /* blue-600 */
+  );
+  background-size: 400% 400%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow 3s ease-in-out infinite;
+}
+
 
 @layer base {
   :root {
